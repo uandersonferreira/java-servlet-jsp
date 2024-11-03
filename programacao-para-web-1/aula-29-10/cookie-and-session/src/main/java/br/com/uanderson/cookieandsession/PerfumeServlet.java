@@ -23,11 +23,12 @@ public class PerfumeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute("user") == null) {
+        if (session == null || session.getAttribute("name_user") == null) {
             Cookie cookie = new Cookie("lastVisited", "perfume");
-            cookie.setMaxAge(3600);
+            cookie.setMaxAge(3600); // 1 hora
             response.addCookie(cookie);
         }
 
@@ -47,9 +48,10 @@ public class PerfumeServlet extends HttpServlet {
             out.println("<p class='description'>" + PERFUME.getDescription() + "</p>");
             out.println("</div>");
             out.println("<nav class='menu'>");
-            out.println("<a href='computer'>Ver Computadores</a>");
-            out.println("<a href='promotion'>Ver Promoções</a>");
-            if (session != null && session.getAttribute("user") != null) {
+            out.println("<a href='computador'>Ver Computadores</a>");
+            out.println("<a href='/promocao'>Ver Promoções</a>");
+
+            if (session != null && session.getAttribute("name_user") != null) {
                 out.println("<a href='logout'>Sair</a>");
             }
             out.println("</nav>");

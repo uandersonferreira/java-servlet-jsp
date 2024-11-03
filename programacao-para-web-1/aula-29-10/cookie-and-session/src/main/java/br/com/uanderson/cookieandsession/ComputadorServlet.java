@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/computer")
+@WebServlet(name = "ComputadorServlet", value = "/computador")
 public class ComputadorServlet extends HttpServlet {
 
     private static final Product COMPUTER = new Product(
@@ -24,10 +24,11 @@ public class ComputadorServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute("user") == null) {
-            Cookie cookie = new Cookie("lastVisited", "computer");
+        if (session == null || session.getAttribute("name_user") == null) {
+            Cookie cookie = new Cookie("lastVisited", "computador");
             cookie.setMaxAge(3600);
             response.addCookie(cookie);
         }
@@ -49,8 +50,8 @@ public class ComputadorServlet extends HttpServlet {
             out.println("</div>");
             out.println("<nav class='menu'>");
             out.println("<a href='perfume'>Ver Perfumes</a>");
-            out.println("<a href='promotion'>Ver Promoções</a>");
-            if (session != null && session.getAttribute("user") != null) {
+            out.println("<a href='promocao'>Ver Promoções</a>");
+            if (session != null && session.getAttribute("name_user") != null) {
                 out.println("<a href='logout'>Sair</a>");
             }
             out.println("</nav>");

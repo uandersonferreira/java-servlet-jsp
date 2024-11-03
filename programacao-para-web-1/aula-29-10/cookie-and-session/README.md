@@ -62,3 +62,13 @@ Essa aplicação possui cinco pontos principais: uma página `index.html` para l
 | `ComputadorServlet` | `/computador` | Exibe detalhes de um computador e define um `cookie` de visita se o usuário não estiver logado.                                                      |
 | `PerfumeServlet`    | `/perfume`    | Exibe detalhes de um perfume e define um `cookie` de visita se o usuário não estiver logado.                                                         |
 | `PromocaoServlet`   | `/promocao`   | Exibe uma promoção de 10% no último produto visitado (com base no `cookie`), caso o usuário esteja logado. Caso contrário, redireciona para o login. 
+
+
+
+
+# Escreva um sistema que tenha 4 servlets e 1 página html: Login, Computador, Perfume e Promoção e index.html
+# A página "index.html" deve ter um formulário que solicite o login e a senha do usuário e envie os dados para o servlet Login
+# No servlet Login crie a sessão do usuário se o login e senha estiverem corretos (cadastre três usuários diferentes de forma fixa no código);
+# Na página "Computador" mostre um computador com seu respectivo preço e descrição; Adicione um cookie quando o usuário visitar esta página sem estar logado;
+# Na página "Perfume" mostre um perfume com seu respectivo preço e descrição; Adicione um cookie quando o usuário visitar esta página sem estar logado;
+# O usuário somente poderá ver a página "Promoção" se ele estiver logado; Mostre nesta página um desconto de 10% no produto que o usuário visitou antes de estar logado.
