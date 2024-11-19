@@ -1,15 +1,18 @@
 package br.com.uanderson.exemplocrudaula.servlet.product;
 
 import br.com.uanderson.exemplocrudaula.model.Produto;
+import br.com.uanderson.exemplocrudaula.model.Usuario;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "RelatorioProdutosServlet", value = "/relatorioprodutos")
@@ -21,7 +24,22 @@ public class RelatorioProdutosServlet extends HttpServlet {
 
         // Recupera a lista de produtos do contexto da aplicação
         ServletContext aplicacao = getServletContext();
+
+        String preco = request.getParameter("preco");
+        Double precoProduto = 0.0;
+        if (preco != null && !preco.isBlank()) {
+            precoProduto = Double.parseDouble(preco);
+        }
+
         List<Produto> produtos = (List<Produto>) aplicacao.getAttribute("produtos");
+
+        List<Produto> listaAuxiliar = new ArrayList<>();
+        for (Produto produto : produtos) {
+            if (produto.getPreco() >= precoProduto) {
+                listaAuxiliar.add(produto);
+            }
+        }
+        produtos = listaAuxiliar;
 
         // Usa StringBuilder para construir o HTML
         StringBuilder html = new StringBuilder();
@@ -40,6 +58,10 @@ public class RelatorioProdutosServlet extends HttpServlet {
                 .append("</head>")
                 .append("<body>")
                 .append("<h1>Relatório de Produtos</h1>")
+                .append("<form action=\"relatorioprodutos\" method=\"get\">")
+                .append("<input type=\"number\" name=\"preco\" id=\"preco\" placeholder=\"Digite o preço do produto\" min=\"0\" step=\"0.01\" required>")
+                .append("<input type=\"submit\" value=\"Filtrar\">")
+                .append("</form>")
                 .append("<table>")
                 .append("<thead>")
                 .append("<tr>")
@@ -82,8 +104,17 @@ public class RelatorioProdutosServlet extends HttpServlet {
         }
 
         html.append("</tbody>")
-                .append("</table>")
-                .append("</body>")
+                .append("</table>");
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            html.append("<a href='deleteuser?id=").append(usuario.getId()).append("'>Deletar Usuário</a>");
+            html.append("<br>");
+            html.append(usuario);
+        }
+
+        html.append("</body>")
                 .append("</html>");
 
         // Envia o conteúdo HTML ao cliente
