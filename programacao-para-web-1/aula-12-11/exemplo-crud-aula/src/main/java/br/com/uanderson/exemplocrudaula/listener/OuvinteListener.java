@@ -36,6 +36,7 @@ public class OuvinteListener implements ServletContextListener {
         aplicacao.setAttribute("usuarios",usuarios);
         usuarios.add(new Usuario(4,"José","jose","123"));
         usuarios.add(new Usuario(5,"Maria","maria","abcd"));
+        usuarios.add(new Usuario(6,"Uanderson","uanderson","123"));
 
         aplicacao.setAttribute("serial",5);
     }

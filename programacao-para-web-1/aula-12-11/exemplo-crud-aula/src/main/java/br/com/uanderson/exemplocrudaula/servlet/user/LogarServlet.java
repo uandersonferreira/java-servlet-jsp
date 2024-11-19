@@ -1,9 +1,13 @@
 package br.com.uanderson.exemplocrudaula.servlet.user;
 
 import br.com.uanderson.exemplocrudaula.model.Usuario;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,36 +22,40 @@ public class LogarServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
 
         try (PrintWriter out = response.getWriter()) {
-            //get parameters (login, senha) for authentication user
+            HttpSession session = request.getSession(false); // Não cria uma nova sessão, apenas recupera uma existente
+            if (session != null && session.getAttribute("usuario") != null) {
+                // Se já existe um usuário logado
+                out.print("<p>Já existe um usuário logado na sessão. Faça logout antes de tentar novamente.</p>");
+                return; // Encerra o processamento
+            }
+
+            // Recupera parâmetros (login, senha) para autenticar o usuário
             String login = request.getParameter("login");
             String senha = request.getParameter("senha");
 
             if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty()) {
                 ServletContext aplicacao = getServletContext();
-
                 List<Usuario> usuarios = (List<Usuario>) aplicacao.getAttribute("usuarios");
 
                 boolean logou = false;
                 for (Usuario user : usuarios) {
                     if (user.getLogin().equals(login) && user.getSenha().equals(senha)) {
-                        HttpSession session = request.getSession(); // Cria ou recupera a sessão HTTP do usuário
+                        session = request.getSession(); // Cria uma nova sessão se não houver
                         session.setAttribute("usuario", user); // Armazena o usuário logado na sessão
-                        out.print("<p> Logado com sucesso. </p>");
+                        out.print("<p>Logado com sucesso.</p>");
                         logou = true;
-                        break; // Encerra o loop após encontrar o usuário
+                        break;
                     }
                 }
 
-                // Se nenhum usuário foi encontrado, exibe uma mensagem de erro
                 if (!logou) {
-                    out.print("<p>Usuario ou senha incorretos");
+                    out.print("<p>Usuário ou senha incorretos.</p>");
                 }
 
             } else {
-                // Mensagem de erro para caso os campos estejam vazios ou nulos
-                out.println("<p>Falha ao logar. Você precisa informar o login e senha");
+                out.println("<p>Falha ao logar. Você precisa informar o login e senha.</p>");
             }
+        }
+    }
 
-        }//try
-    }//method
 }//class
