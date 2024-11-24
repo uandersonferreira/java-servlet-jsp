@@ -1,5 +1,7 @@
 <%@ page import="br.com.uanderson.agendamvc.model.Agenda" %>
 <%@ page import="br.com.uanderson.agendamvc.model.Contato" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -83,23 +85,149 @@
             font-size: 20px; /* Tamanho do ícone */
         }
 
+        .update-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .update-message::before {
+            content: '✅';
+            font-size: 20px;
+        }
+
+        .create-message {
+            background-color: #cce5ff;
+            color: #004085;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #b8daff;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .create-message::before {
+            content: '🆕';
+            font-size: 20px;
+        }
+
+        .delete-message {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .delete-message::before {
+            content: '🗑️';
+            font-size: 20px;
+        }
+        .create-error-message {
+            background-color: #ffe6e6;
+            color: #cc0000;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ffcccc;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .create-error-message::before {
+            content: '❌';
+            font-size: 20px;
+        }
+
+        .delete-error-message {
+            background-color: #fff2f2;
+            color: #990000;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ffb3b3;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .delete-error-message::before {
+            content: '⚠️'
+            font-size: 20px;
+        }
+
+
     </style>
 </head>
+
 <body>
 <h1>Listar Agenda</h1>
-
 <%
+    // Recupera os parâmetros da request
     String mensagem = request.getParameter("mensagem");
-    String causeerror = request.getParameter("causeerror");
 
-    if (mensagem != null && mensagem.equals("naoexiste")) {
+    // Define um mapa de mensagens com seus textos e tipos (classe CSS)
+    Map<String, String[]> mensagens = new HashMap<>();
+    mensagens.put("naoexiste", new String[]{"Contato não existe na Agenda!", "error-message"});
+    mensagens.put("sucesso-update", new String[]{"Contato atualizado com sucesso!", "update-message"});
+    mensagens.put("sucesso-create", new String[]{"Contato criado com sucesso!", "create-message"});
+    mensagens.put("sucesso-delete", new String[]{"Contato excluído com sucesso!", "delete-message"});
+    mensagens.put("erro-create", new String[]{"Erro ao criar o contato!", "create-error-message"});
+    mensagens.put("erro-delete", new String[]{"Erro ao excluir o contato!", "delete-error-message"});
+
+    // Define o conteúdo da mensagem a ser exibida
+    String mensagemTexto = null;
+    String mensagemClasse = null;
+
+    if (mensagem != null && mensagens.containsKey(mensagem)) {
+        String[] mensagemInfo = mensagens.get(mensagem);
+        mensagemTexto = mensagemInfo[0]; // Primeiro elemento: texto da mensagem
+        mensagemClasse = mensagemInfo[1]; // Segundo elemento: classe CSS
+    }
 %>
-<!-- Divs com classes e IDs apropriados -->
-<div class="error-message" >Contato não existe na Agenda!</div>
-<div class="error-message" ><%= causeerror %>  </div>
+
+<%-- Renderiza a mensagem se existir --%>
+<%
+    if (mensagemTexto != null && mensagemClasse != null) {
+%>
+<div class="alert-msg <%= mensagemClasse %>"><%= mensagemTexto %></div>
 <%
     }
 %>
+
 
 <a href="cadastro">Cadastrar</a>
 <table>
@@ -107,6 +235,7 @@
         <th>Código</th>
         <th>Nome</th>
         <th>Telefone</th>
+        <th>Editar</th>
         <th>Deletar</th>
     </tr>
     <%
@@ -117,6 +246,7 @@
                 out.println("<td>" + c.getCodigo() + "</td>");
                 out.println("<td>" + c.getNome() + "</td>");
                 out.println("<td>" + c.getTelefone() + "</td>");
+                out.println("<td> <a href='editar?codigo=" + c.getCodigo() + "'> Editar </a> </td>");
                 out.println("<td> <a href='deletar?codigo=" + c.getCodigo() + "'> Deletar </a> </td>");
                 out.println("</tr>");
             }
@@ -130,7 +260,7 @@
     // JavaScript para remover todas as mensagens de erro após 5 segundos
     setTimeout(() => {
         // Seleciona todos os elementos com a classe "error-message"
-        const errorMessages = document.querySelectorAll('.error-message');
+        const errorMessages = document.querySelectorAll('.alert-msg');
         errorMessages.forEach((errorMessage) => {
             errorMessage.style.transition = 'opacity 0.5s'; // Suaviza o desaparecimento
             errorMessage.style.opacity = '0'; // Torna o elemento transparente

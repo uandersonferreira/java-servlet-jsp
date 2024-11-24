@@ -33,15 +33,11 @@ public class Agenda {
             System.out.println("Contato removido com sucesso!\n");
     }
 
-    public void editarContato(Contato contato) {
-        try {
+    public void editarContato(Contato contato) throws Exception {
             Contato contatoParaUpdate = buscarContato(contato.getCodigo());
             contatoParaUpdate.setNome(contato.getNome());
             contatoParaUpdate.setTelefone(contato.getTelefone());
             System.out.println("Contato atualizado com sucesso!\n");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

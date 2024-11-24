@@ -26,7 +26,7 @@ public class CadastroServlet extends HttpServlet {
         if (nome != null && telefone != null) {
             Contato contato = new Contato(nome, telefone);
             agendaContext.adicionarContato(contato);
-            response.sendRedirect("listar-agenda.jsp");
+            response.sendRedirect("listar-agenda.jsp?mensagem=sucesso-create");
 
         }else {
             response.sendRedirect("index.html");
