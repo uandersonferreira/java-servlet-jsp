@@ -1,4 +1,4 @@
-<%--
+<%@ page import="br.com.uanderson.agendamvc.model.Contato" %><%--
   Created by IntelliJ IDEA.
   User: uanderson
   Date: 24/11/2024
@@ -88,6 +88,9 @@
 </head>
 <body>
 <h1>Editar Contato</h1>
+<%
+    Contato contato = (Contato) request.getAttribute("contato");
+%>
 
 <form action="editar" method="post">
     <input type="hidden" name="codigo" value="${contato.codigo}" />

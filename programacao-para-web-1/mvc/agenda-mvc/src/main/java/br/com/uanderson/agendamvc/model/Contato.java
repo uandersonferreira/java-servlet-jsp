@@ -7,7 +7,6 @@ public class Contato {
     private String nome;
     private String telefone;
 
-
     public Contato() {}
 
     public Contato(String nome, String telefone) { // constructor for create new contato
@@ -20,8 +19,6 @@ public class Contato {
         this.telefone = telefone;
         this.codigo = codigo;
     }
-
-
 
     public String getNome() {
         return nome;

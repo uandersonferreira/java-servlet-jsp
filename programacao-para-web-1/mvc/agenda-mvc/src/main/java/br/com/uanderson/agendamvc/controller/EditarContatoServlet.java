@@ -38,6 +38,11 @@ public class EditarContatoServlet extends HttpServlet {
             request.setAttribute("contato", contato); // Passa o contato para o JSP
             RequestDispatcher dispatcher = request.getRequestDispatcher("/editar.jsp");
             dispatcher.forward(request, response);
+            /*
+              No dispacho os objetos request e response, são transferidos para a jsp,
+              por isso que conseguimos pegar na jsp o objeto contato:
+              -     Contato contato = (Contato) request.getAttribute("contato");
+             */
         } else {
             response.sendRedirect("listar?mensagem=naoexiste");
         }

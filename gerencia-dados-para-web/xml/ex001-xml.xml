@@ -1,0 +1,9 @@
+<Pessoa>
+    <nome>José Silva</nome>
+    <email>josesilva@gmail.com</email>
+    <data_nascimento>10-12-2000</data_nascimento>
+    <telefones>
+        <celular>98123 4321</celular>
+        <fixo>3223 3434</fixo>
+    </telefones>
+</Pessoa>
