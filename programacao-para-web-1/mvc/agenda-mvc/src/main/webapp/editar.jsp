@@ -104,7 +104,7 @@
     <button type="submit">Salvar</button>
 </form>
 
-<a href="listar">Cancelar</a>
+<a href="listar-agenda.jsp">Cancelar</a>
 </body>
 
 </html>

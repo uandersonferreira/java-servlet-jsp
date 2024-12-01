@@ -2,51 +2,74 @@ package br.com.uanderson.agendamvc.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Agenda {
     private List<Contato> contatos = new ArrayList<>();
     private int proximoCodigo = 1;
 
 
+    // Adiciona um novo contato
     public void adicionarContato(Contato contato) {
+        if (contato == null || contato.getNome() == null || contato.getNome().isEmpty() ||
+                contato.getTelefone() == null || contato.getTelefone().isEmpty()) {
+            throw new IllegalArgumentException("Nome e telefone são obrigatórios!");
+        }
+
         contato.setCodigo(proximoCodigo);
         proximoCodigo++;
         contatos.add(contato);
     }
 
+    // Retorna todos os contatos
     public List<Contato> getContatos() {
-        return contatos;
+        return new ArrayList<>(contatos); // Retorna uma cópia para preservar a lista original
     }
 
-    public Contato buscarContato(int codigo) throws Exception {
-        for (Contato contato : contatos) {
-            if (contato.getCodigo() == codigo) {
-                return contato;
-            }
+    // Busca um contato pelo código
+    public Optional<Contato> buscarContato(int codigo) {
+        return contatos.stream()
+                .filter(contato -> contato.getCodigo() == codigo)
+                .findFirst();
+    }
+
+    // Remove um contato pelo código
+    public void removerContato(int codigo) {
+        Optional<Contato> contatoParaRemover = buscarContato(codigo);
+        if (contatoParaRemover.isPresent()) {
+            contatos.remove(contatoParaRemover.get());
+            System.out.println("Contato removido com sucesso!");
+        } else {
+            throw new IllegalArgumentException("Contato não encontrado!");
         }
-        throw new Exception("Contato não existe na agenda!\n");
     }
 
-    public void removerContato(int codigo) throws Exception {
-            buscarContato(codigo);
-            contatos.remove(buscarContato(codigo));
-            System.out.println("Contato removido com sucesso!\n");
+    // Edita um contato
+    public void editarContato(Contato contato) {
+        if (contato == null || contato.getNome() == null || contato.getNome().isEmpty() ||
+                contato.getTelefone() == null || contato.getTelefone().isEmpty()) {
+            throw new IllegalArgumentException("Nome e telefone são obrigatórios!");
+        }
+
+        Optional<Contato> contatoParaUpdate = buscarContato(contato.getCodigo());
+        if (contatoParaUpdate.isPresent()) {
+            Contato existente = contatoParaUpdate.get();
+            existente.setNome(contato.getNome());
+            existente.setTelefone(contato.getTelefone());
+            System.out.println("Contato atualizado com sucesso!");
+        } else {
+            throw new IllegalArgumentException("Contato não encontrado!");
+        }
     }
 
-    public void editarContato(Contato contato) throws Exception {
-            Contato contatoParaUpdate = buscarContato(contato.getCodigo());
-            contatoParaUpdate.setNome(contato.getNome());
-            contatoParaUpdate.setTelefone(contato.getTelefone());
-            System.out.println("Contato atualizado com sucesso!\n");
-    }
-
+    // Retorna a lista de contatos como uma string
     @Override
     public String toString() {
-        String texto = "";
+        StringBuilder texto = new StringBuilder();
         for (Contato contato : contatos) {
-            texto += contato.toString();
+            texto.append(contato.toString()).append("\n");
         }
-        return texto;
+        return texto.toString();
     }
 
     public static void main(String[] args) {
@@ -72,15 +95,15 @@ public class Agenda {
 
             System.out.println("List All (before-update): \n" + agenda);
 
-            Contato contatoParaEditar = agenda.buscarContato(3);
+            Optional<Contato> contatoParaEditar = agenda.buscarContato(3);
 
             System.out.println("contatoParaEditar: " + contatoParaEditar);
 
-            contatoParaEditar.setNome("Pedro da Silva");
+            contatoParaEditar.get().setNome("Pedro da Silva");
 
-            contatoParaEditar.setTelefone("9999-9999");
+            contatoParaEditar.get().setTelefone("9999-9999");
 
-            agenda.editarContato(contatoParaEditar);
+            agenda.editarContato(contatoParaEditar.orElse(null));
 
             System.out.println("List all (after-update): \n" + agenda);
 

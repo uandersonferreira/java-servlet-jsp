@@ -12,13 +12,18 @@ import java.io.IOException;
 public class CadastroServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
 
         //recuperar o atributo agendaContext do contexto da aplicação criado no Listener ao iniciar a aplicação
         Agenda agendaContext = (Agenda) getServletContext().getAttribute("agendaContext");
+
+        if (agendaContext == null) {
+            response.sendRedirect("listar-agenda.jsp?mensagem=erroAgendaNaoInicializada");
+            return;
+        }
 
         String nome = request.getParameter("nome");
         String telefone = request.getParameter("telefone");
@@ -34,7 +39,7 @@ public class CadastroServlet extends HttpServlet {
     }//method
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("index.html");
     }
 }
