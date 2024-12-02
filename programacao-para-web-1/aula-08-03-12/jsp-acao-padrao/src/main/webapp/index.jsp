@@ -3,27 +3,25 @@
 <html>
 <head>
 	<title>JSP - Hello World</title>
+	<link rel = "stylesheet" href = "css/style.css">
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1> <br/>
 
-<h1>Teste JSP:Include</h1>
-<jsp:include page = "boas_vindas.jsp">
-	<jsp:param name = "nome" value = "Uanderson"/>
-</jsp:include>
+	<h1>Teste JSP:Include</h1>
 	
+	<jsp:include page = "boas_vindas.jsp">
+		<jsp:param name = "nome" value = "Uanderson"/>
+	</jsp:include>
 	
-	<p>
-		lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		Donec nec semper
-		
-	</p>
+	<h1>Teste JSP:Forward</h1>
+	<%
+		String erro = request.getParameter("erro");
+        if (erro != null) {
+				out.println("<div class=error-msg>" + erro + "</div>");
+        }
+	%>
 	
-	<button> teste </button>
+
 	
 </body>
 </html>
