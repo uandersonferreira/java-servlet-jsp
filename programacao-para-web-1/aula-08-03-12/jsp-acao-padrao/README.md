@@ -17,31 +17,36 @@ utilizadas em aplicações web para interagir com objetos JavaBeans e preencher 
   instanciar objetos, definir ou obter propriedades, incluir
   arquivos, reencaminhar requisições, etc.
 
-
 ## **1. Ação `<jsp:include />`**
 
-A ação `<jsp:include />` é utilizada para incluir um conteúdo externo (outro arquivo JSP, por exemplo) em uma página JSP. Diferentemente da diretiva `<%@ include %>`, que é processada em **tempo de compilação**, a ação `<jsp:include />` é executada em **tempo de requisição**, permitindo a inclusão de conteúdos dinâmicos.
+A ação `<jsp:include />` é utilizada para incluir um conteúdo externo (outro arquivo JSP, por exemplo) em uma página
+JSP. Diferentemente da diretiva `<%@ include %>`, que é processada em **tempo de compilação**, a ação `<jsp:include />`
+é executada em **tempo de requisição**, permitindo a inclusão de conteúdos dinâmicos.
 
 ### Diferenças:
 
 | Diretiva Include (`<%@ include %>`)        | Ação Include (`<jsp:include />`)            |
-|-------------------------------------------|---------------------------------------------|
-| Executada em **tempo de compilação**.     | Executada em **tempo de requisição**.       |
-| Conteúdo incluído é estático.             | Conteúdo incluído pode ser dinâmico.        |
-| Usa a sintaxe: `<%@ include file="..." %>`| Usa a sintaxe: `<jsp:include page="..." />` |
+|--------------------------------------------|---------------------------------------------|
+| Executada em **tempo de compilação**.      | Executada em **tempo de requisição**.       |
+| Conteúdo incluído é estático.              | Conteúdo incluído pode ser dinâmico.        |
+| Usa a sintaxe: `<%@ include file="..." %>` | Usa a sintaxe: `<jsp:include page="..." />` |
 
 ### Estrutura:
+
 ```jsp
 <jsp:include page="caminhoDoArquivo" />
 ```
 
 ### Exemplo:
+
 #### Arquivo `cabecalho.jsp`:
+
 ```jsp
 <% out.print("<header>Cabeçalho</header>"); %>
 ```
 
 #### Arquivo `pagina.jsp`:
+
 ```jsp
 <body>
     <jsp:include page="cabecalho.jsp" />
@@ -58,6 +63,7 @@ A ação `<jsp:include />` é utilizada para incluir um conteúdo externo (outro
 A ação `<jsp:param />` é usada para enviar parâmetros de uma página JSP para outra página incluída ou encaminhada.
 
 ### Estrutura:
+
 ```jsp
 <jsp:include page="destino.jsp">
     <jsp:param name="nomeDoParametro" value="valorDoParametro" />
@@ -65,7 +71,9 @@ A ação `<jsp:param />` é usada para enviar parâmetros de uma página JSP par
 ```
 
 ### Exemplo:
+
 #### Arquivo `pagina.jsp`:
+
 ```jsp
 <jsp:include page="boasVindas.jsp">
     <jsp:param name="nome" value="José" />
@@ -73,6 +81,7 @@ A ação `<jsp:param />` é usada para enviar parâmetros de uma página JSP par
 ```
 
 #### Arquivo `boasVindas.jsp`:
+
 ```jsp
 <%
     out.print("Seja bem-vindo, " + request.getParameter("nome") + "!");
@@ -86,14 +95,17 @@ A ação `<jsp:param />` é usada para enviar parâmetros de uma página JSP par
 
 ## **3. Ação `<jsp:forward />`**
 
-A ação `<jsp:forward />` redireciona a requisição para outra página JSP, Servlet ou outro recurso no servidor. Após o redirecionamento, nenhuma parte do código restante da página original será executada.
+A ação `<jsp:forward />` redireciona a requisição para outra página JSP, Servlet ou outro recurso no servidor. Após o
+redirecionamento, nenhuma parte do código restante da página original será executada.
 
 ### Estrutura:
+
 ```jsp
 <jsp:forward page="destino.jsp" />
 ```
 
 ### Exemplo Básico:
+
 ```jsp
 <jsp:forward page="outraPagina.jsp" />
 ```
@@ -101,7 +113,9 @@ A ação `<jsp:forward />` redireciona a requisição para outra página JSP, Se
 - Encaminha a requisição para `outraPagina.jsp`.
 
 ### Enviando Parâmetros com `<jsp:forward />`:
+
 #### Arquivo `pagina.jsp`:
+
 ```jsp
 <jsp:forward page="outraPagina.jsp">
     <jsp:param name="mensagem" value="Olá, mundo!" />
@@ -109,6 +123,7 @@ A ação `<jsp:forward />` redireciona a requisição para outra página JSP, Se
 ```
 
 #### Arquivo `outraPagina.jsp`:
+
 ```jsp
 <%
     String mensagem = request.getParameter("mensagem");
@@ -120,50 +135,57 @@ A ação `<jsp:forward />` redireciona a requisição para outra página JSP, Se
 
 ## **4. Atributo `scope` no `<jsp:useBean />`**
 
-O atributo `scope` define onde o objeto criado ou referenciado pelo `<jsp:useBean />` estará disponível. Os valores possíveis para o atributo `scope` são:
+O atributo `scope` define onde o objeto criado ou referenciado pelo `<jsp:useBean />` estará disponível. Os valores
+possíveis para o atributo `scope` são:
 
-| **Escopo**    | **Descrição**                                                                                                                                           |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **`page`**    | (Padrão) O objeto está disponível apenas na página JSP atual.                                                    |
-| **`request`** | O objeto estará disponível durante a requisição HTTP atual, podendo ser acessado por outras páginas ou Servlets que fazem parte da mesma requisição.    |
-| **`session`** | O objeto estará disponível durante toda a sessão do usuário.                                                     |
-| **`application`** | O objeto estará disponível em toda a aplicação, podendo ser acessado por qualquer página ou Servlet enquanto a aplicação estiver ativa.             |
+| **Escopo**        | **Descrição**                                                                                                                                        |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **`page`**        | (Padrão) O objeto está disponível apenas na página JSP atual.                                                                                        |
+| **`request`**     | O objeto estará disponível durante a requisição HTTP atual, podendo ser acessado por outras páginas ou Servlets que fazem parte da mesma requisição. |
+| **`session`**     | O objeto estará disponível durante toda a sessão do usuário.                                                                                         |
+| **`application`** | O objeto estará disponível em toda a aplicação, podendo ser acessado por qualquer página ou Servlet enquanto a aplicação estiver ativa.              |
 
 ### Exemplo:
+
 ```jsp
 <jsp:useBean id="pessoa" class="pacote.Pessoa" scope="request" />
 <jsp:setProperty name="pessoa" property="nome" value="José" />
 ```
 
-- Se já existir um atributo chamado `pessoa` no escopo `request`, ele será referenciado. Caso contrário, será criado um novo objeto `Pessoa`.
+- Se já existir um atributo chamado `pessoa` no escopo `request`, ele será referenciado. Caso contrário, será criado um
+  novo objeto `Pessoa`.
 
 ---
 
 ## **5. Resumo das Ações**
 
-| **Ação**         | **Descrição**                                                                                                                                                     |
-|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<jsp:useBean />` | Cria ou referencia um objeto JavaBean, podendo definir seu escopo.                                                                                              |
-| `<jsp:getProperty />` | Obtém o valor de uma propriedade de um objeto JavaBean.                                                                                                     |
-| `<jsp:setProperty />` | Define o valor de uma propriedade de um objeto JavaBean, podendo usar valores fixos ou parâmetros da requisição.                                             |
-| `<jsp:include />` | Inclui dinamicamente outro recurso JSP ou Servlet na página atual, permitindo conteúdo dinâmico.                                                                |
-| `<jsp:param />`   | Passa parâmetros de uma página para outra ao usar `<jsp:include />` ou `<jsp:forward />`.                                                                        |
-| `<jsp:forward />` | Encaminha a requisição para outro recurso no servidor (página JSP, Servlet, etc.), podendo passar parâmetros com `<jsp:param />`.                                |
+| **Ação**              | **Descrição**                                                                                                                     |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `<jsp:useBean />`     | Cria ou referencia um objeto JavaBean, podendo definir seu escopo.                                                                |
+| `<jsp:getProperty />` | Obtém o valor de uma propriedade de um objeto JavaBean.                                                                           |
+| `<jsp:setProperty />` | Define o valor de uma propriedade de um objeto JavaBean, podendo usar valores fixos ou parâmetros da requisição.                  |
+| `<jsp:include />`     | Inclui dinamicamente outro recurso JSP ou Servlet na página atual, permitindo conteúdo dinâmico.                                  |
+| `<jsp:param />`       | Passa parâmetros de uma página para outra ao usar `<jsp:include />` ou `<jsp:forward />`.                                         |
+| `<jsp:forward />`     | Encaminha a requisição para outro recurso no servidor (página JSP, Servlet, etc.), podendo passar parâmetros com `<jsp:param />`. |
 
 ---
 
 ## **6. Exemplos Combinados**
 
 ### Exemplo Completo:
+
 #### Formulário HTML:
+
 ```html
-<form action="processa.jsp" method="post">
-    <input type="text" name="nome" placeholder="Digite seu nome" />
-    <button type="submit">Enviar</button>
+
+<form action = "processa.jsp" method = "post">
+    <input type = "text" name = "nome" placeholder = "Digite seu nome"/>
+    <button type = "submit">Enviar</button>
 </form>
 ```
 
 #### Arquivo `processa.jsp`:
+
 ```jsp
 <jsp:useBean id="pessoa" class="pacote.Pessoa" scope="request" />
 <jsp:setProperty name="pessoa" property="*" />
@@ -174,6 +196,7 @@ O atributo `scope` define onde o objeto criado ou referenciado pelo `<jsp:useBea
 ```
 
 #### Arquivo `boasVindas.jsp`:
+
 ```jsp
 <%
     String nome = request.getParameter("nome");
@@ -182,11 +205,34 @@ O atributo `scope` define onde o objeto criado ou referenciado pelo `<jsp:useBea
 %>
 ```
 
-
 ## **7. Ação `<jsp:useBean />`**
 
 A tag `<jsp:useBean />` é usada para instanciar uma classe Java ou referenciar um objeto já existente no escopo
 especificado. Ela trabalha diretamente com classes JavaBeans.
+
+### **Características de um JavaBean**:
+
+Para que uma classe seja considerada um **JavaBean**, ela deve seguir algumas convenções:
+
+1. **Construtor Padrão (Sem Argumentos)**:
+
+- A classe deve ter um construtor público e sem argumentos, para que possa ser instanciada facilmente.
+
+2. **Atributos Privados**:
+
+- Os atributos (propriedades) da classe devem ser declarados como **privados** para garantir o princípio do
+  encapsulamento.
+
+3. **Métodos Getter e Setter**:
+
+- Deve haver métodos públicos para acessar e modificar os atributos privados. Esses métodos devem seguir a convenção:
+    - **Getter**: `getNomePropriedade()` - Retorna o valor da propriedade.
+    - **Setter**: `setNomePropriedade(valor)` - Define um novo valor para a propriedade.
+
+4. **Serializable**:
+
+- A classe deve implementar a interface `Serializable` se ela for destinada a ser persistida ou transmitida, como em
+  operações de banco de dados ou comunicação entre sistemas.
 
 ### Estrutura:
 

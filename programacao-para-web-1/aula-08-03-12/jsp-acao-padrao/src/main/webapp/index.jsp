@@ -21,6 +21,17 @@
         }
 	%>
 	
+	<h1>Teste JSP:useBean</h1>
+	<article>
+		<jsp:useBean id="contato" class="br.com.uanderson.jspacaopadrao.modelo.Contato" />
+		<jsp:setProperty name="contato" property="nome" value="Uanderson"/>
+		<jsp:setProperty name="contato" property="fone" value="99999-9999"/>
+		
+		Nome: <jsp:getProperty name="contato" property="nome"/> <br>
+		Telefone: <jsp:getProperty name="contato" property="fone"/>
+		
+	</article>
+
 
 	
 </body>
