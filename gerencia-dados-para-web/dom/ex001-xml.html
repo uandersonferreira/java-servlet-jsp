@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo DOM - XML</title>
+</head>
+
+<body>
+
+    <!-- <script src="exe001-xml.html"></script> -->
+    <script>
+        // Suponha que temos este XML carregado em uma string
+        const xmlString = `
+<Pessoa>
+    <nome>José Silva</nome>
+    <email>josesilva@gmail.com</email>
+    <data_nascimento>10-12-2000</data_nascimento>
+    <telefones>
+        <celular>98123 4321</celular>
+        <fixo>3223 3434</fixo>
+    </telefones>
+</Pessoa>`;
+
+
+
+
+        // Parseamos o XML para criar um documento DOM
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+        // 1. **Acessando a raiz (<Pessoa>):**
+        const raiz = xmlDoc.documentElement; // Raiz é <Pessoa>
+        console.log("Raiz:", raiz.nodeName); // Saída: Pessoa
+
+        // 2. **Acessando os filhos diretos da raiz:**
+        const filhos = raiz.childNodes; // Inclui os elementos filhos e possíveis nós de texto
+        filhos.forEach((filho) => {
+            if (filho.nodeType === 1) {
+                console.log(`Filho: ${filho.nodeName}, Valor: ${filho.firstChild.nodeValue.trim()}`);
+            }
+        });
+
+        // 3. **Manipulando o nó folha (texto do <nome>):**
+        const nomeNode = xmlDoc.querySelector("nome"); // Seleciona o nó <nome>
+        console.log("Nome antes:", nomeNode.firstChild.nodeValue); // José Silva
+        nomeNode.firstChild.nodeValue = "João Santos"; // Altera o texto
+        console.log("Nome depois:", nomeNode.firstChild.nodeValue); // João Santos
+
+        // 4. **Acessando o pai de um nó (parentNode):**
+        const emailNode = xmlDoc.querySelector("email");
+        console.log("Pai do nó <email>:", emailNode.parentNode.nodeName); // Pessoa
+
+        // 5. **Acessando os nós folha em <telefones>:**
+        const telefonesNode = xmlDoc.querySelector("telefones"); // Seleciona <telefones>
+        telefonesNode.childNodes.forEach((telefone) => {
+            if (telefone.nodeType === 1) { // Ignora nós de texto e foca em elementos
+                console.log(`${telefone.nodeName}: ${telefone.firstChild.nodeValue.trim()}`);
+            }
+        });
+
+        // 6. **Adicionando um novo filho em <telefones>:**
+        const novoTelefone = xmlDoc.createElement("trabalho"); // Cria um novo nó
+        novoTelefone.appendChild(xmlDoc.createTextNode("98765 4321")); // Adiciona o texto
+        telefonesNode.appendChild(novoTelefone); // Adiciona o novo nó à lista de telefones
+
+        console.log("Novo XML:");
+        console.log(new XMLSerializer().serializeToString(xmlDoc)); // Exibe o XML atualizado
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Exercício Aula 02</h1>
+    <p id="resultado"></p> <!-- Alterado id para 'resultado' para ser mais descritivo -->
+
+    <script>
+        // String contendo a estrutura XML
+        const xmlString = `
+        <bookstore id='oi'>
+            <book>
+                <title>Everyday Italian</title>
+                <author>Giada De Laurentiis</author>
+                <year>2005</year>
+                <price>99</price>
+
+            </book>
+            <book>
+                <title>Everyday Italian</title>
+                <author>Giada De Laurentiis</author>
+                <year>2005</year>
+                 <price>99</price>
+            </book>
+        </bookstore>
+        `;
+
+        // Parseia a string XML para um documento XML
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+        // Seleciona o parágrafo onde os resultados serão exibidos
+        const resultado = document.getElementById('resultado');
+        resultado.innerHTML = processaLivraria(xmlDoc.documentElement);
+
+        // Função para processar a livraria (raiz do XML)
+        function processaLivraria(raiz) {
+            const livros = raiz.getElementsByTagName('book');
+            const quantidadeLivros = livros.length;
+            let livrariaHTML = "";
+
+            for (let i = 0; i < quantidadeLivros; i++) {
+                livrariaHTML += processaLivro(livros[i]) + "<hr>";
+            }
+            return livrariaHTML;
+        }
+
+        // Função para processar cada livro
+        function processaLivro(livro) {
+            const elementosFilhos = livro.childNodes;
+            const quantidadeFilhos = elementosFilhos.length;
+            let livroHTML = "";
+
+            for (let i = 0; i < quantidadeFilhos; i++) {
+                // Verifica se o nó é um ELEMENTO (nodeType == 1)
+                if (elementosFilhos[i].nodeType === 1) {
+                    livroHTML += `
+                        <p> 
+                            <b>${elementosFilhos[i].nodeName}</b> :
+                            ${elementosFilhos[i].textContent}
+                        </p>
+                    `;
+                }
+            }
+            return livroHTML;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 02 - DOM XML</title>
+</head>
+<body>
+
+    <h1>Aula 02 - DOM XML</h1>
+    <p id="demo"></p>
+
+    <script>
+        
+        const xmlString = `
+        <bookstore id='oi'>
+            <book>
+                <title>Everyday Italian</title>
+                <author>Giada De Laurentiis</author>
+                <author>Giada De Laurentiis</author>
+                <author>Giada De Laurentiis</author>
+                <year>2005</year>
+            </book>
+            <book>
+                <title>Everyday Italian</title>
+                <author>Giada De Laurentiis</author>
+                <author>Giada De Laurentiis</author>
+                <author>Giada De Laurentiis</author>
+                <year>2005</year>
+            </book>
+        </bookstore>
+        `;
+
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+        var p = document.getElementById('demo');
+        //p.innerHTML = xmlDoc.getElementsByName("year")[0].childNodes[0].nodeValue;
+
+        //console.log("xmlString: " + xmlString);
+        console.log("xmlDoc: " + xmlDoc.documentElement.nodeName);
+
+        console.log("xmlDoc author: " + xmlDoc.getElementsByTagName("author").length);
+        
+        let autores = xmlDoc.getElementsByTagName("author");
+        let tamanho =  autores.length;
+
+        for (let i = 0; i < tamanho; i++){
+            console.log(`nodeName [${i}]:` + autores[i].nodeName);
+            console.log(`nodeType [${i}]:` +autores[i].nodeType);
+        }
+        console.log("============================")
+        
+        //PEGAR TODOS OS FILHOS DE UMA TAG RAIZ - bookstore > tudo dentro dela
+        let filhos = xmlDoc.documentElement.childNodes; // bookstore.filhos
+        console.log(filhos);
+
+        for (let i = 0; i < filhos.length; i++){
+            if(filhos[i].nodeType == 1){ //pega somente os elementos, tipo  text é ignorados
+                console.log(filhos[i].childNodes[1].nodeName);
+            }
+        }
+
+        //NAVEGAR PELOS RELACIONAMENTOS ENTRE OS NÓS
+        let filho = xmlDoc.documentElement.firstChild; //recebe o 1° Filho inicialmente 
+        console.log("filho: " + filho.nodeName);
+
+        while(filho != null){
+            if (filho.nodeType == 1){
+                console.log("No: " + filho.nodeName);
+            }
+            filho = filho.nextSibling;
+        }
+
+
+        console.log(xmlDoc.documentElement.attributes['id'].nodeName); // id
+        console.log(xmlDoc.documentElement.attributes['id'].nodeValue);// oi
+        console.log(xmlDoc.documentElement.attributes.getNamedItem('id').nodeValue); // oi
+
+
+        console.log(xmlDoc.documentElement.getElementsByTagName('title')[0].nodeValue);//Pegando a tag 'title'
+        console.log(xmlDoc.documentElement.getElementsByTagName('title')[0].firstChild.nodeValue);// Pegando o conteúdo da tag 'title' > Everyday Italian
+        
+        console.log(xmlDoc.documentElement.getAttribute('id')); // oi
+        console.log(xmlDoc.documentElement.getAttributeNode('id')); // id="oi"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    </script>
+    
+</body>
+</html>

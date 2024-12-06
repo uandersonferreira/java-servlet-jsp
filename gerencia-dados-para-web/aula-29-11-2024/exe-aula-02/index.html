@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro Livraria Básico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div>
+    <input type="text" id="titleInput" placeholder="Digite o título">
+    <button onclick="filterByTitle()">Filtrar por Título</button>
+    <br><br>
+
+    <input type="text" id="titleInput2" placeholder="Digite o título">
+    <button onclick="filterByTitle2()">Filtrar por Título 2</button>
+    <br><br>
+
+    <input type="text" id="authorInput" placeholder="Digite o autor">
+    <button onclick="filterByAuthor()">Filtrar por Autor</button>
+    <br><br>
+
+    <input type="number" id="yearInput" placeholder="Digite o ano">
+    <button onclick="filterByYearGreater()">Filtrar Anos Maiores</button>
+    <button onclick="filterByYearLess()">Filtrar Anos Menores</button>
+    <br><br>
+
+    <button onclick="showAllBooks()">Mostrar Todos</button>
+
+</div>
+
+<div id="results"></div>
+
+<script>
+    const xmlString = `
+        <bookstore>
+            <book category="cooking">
+                <title>Everyday Italian</title>
+                <author>Giada De Laurentiis</author>
+                <year>2005</year>
+                <price>30.00</price>
+            </book>
+            <book category="children">
+                <title>Harry Potter</title>
+                <author>J.K. Rowling</author>
+                <year>2010</year>
+                <price>29.99</price>
+            </book>
+            <book category="children">
+                <title>Harry Potter 2</title>
+                <author>J.K. Rowling</author>
+                <year>2013</year>
+                <price>39.99</price>
+            </book>
+             <book category="children">
+                <title>Harry Potter 3</title>
+                <author>J.K. Rowling</author>
+                <year>2023</year>
+                <price>89.99</price>
+            </book>
+        </bookstore>`;
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+    function showAllBooks() {
+        const books = xmlDoc.getElementsByTagName('book');
+        displayBooks(books);
+    }
+
+    function filterByTitle() {
+        const titleFilter = document.getElementById('titleInput').value.toLowerCase(); //Transformando o que digiito em minusculo
+        const books = xmlDoc.getElementsByTagName('book'); //pego todo os objeto 'book'
+        const filteredBooks = [];
+
+        for (let book of books) {
+            const title = book.getElementsByTagName('title')[0].textContent.toLowerCase();
+            // Pegando o primeiro elemento do titulo, pois é retornado um array com todos os elementos <title> do xml
+            //Transformando o conteúdo do xml em minusculo
+            //Verificando se o titulo é igual ao que foi digitado ou se contém o que foi digitado
+            if (title === titleFilter || title.includes(titleFilter)) {
+                console.log(title);
+                filteredBooks.push(book); // adiciona numa lista
+            }
+        }
+        displayBooks(filteredBooks); // e mostrar os livros formatados
+    }
+
+    function filterByTitle2(){
+        let raiz = xmlDoc.documentElement;
+        let filhos = raiz.childNodes;
+        let filteredBooks = [];
+        for (const filho of filhos) {
+            if (filho.nodeType === 1){
+                const titulo = filho.getElementsByTagName('title')[0].textContent.toLowerCase();
+                if (titulo.includes(document.getElementById('titleInput2').value.toLowerCase())) {
+                    filteredBooks.push(filho);
+                }
+            }
+        }
+        displayBooks(filteredBooks); // e mostrar os livros formatados
+    }
+
+
+    function filterByAuthor() {
+        const authorFilter = document.getElementById('authorInput').value.toLowerCase();
+        const books = xmlDoc.getElementsByTagName('book');
+        const filteredBooks = [];
+
+        for (let book of books) {
+            const author = book.getElementsByTagName('author')[0].textContent.toLowerCase();
+            if (authorFilter === author || author.includes(authorFilter)) {
+                filteredBooks.push(book);
+            }
+        }
+        displayBooks(filteredBooks);
+    }
+
+    function filterByYearGreater() {
+        filterByYear('greater');
+    }
+
+    function filterByYearLess() {
+        filterByYear('less');
+    }
+
+    function filterByYear(comparison) {
+        const yearFilter = document.getElementById('yearInput').value;//pegando o valor do ano digitado
+        const books = xmlDoc.getElementsByTagName('book');
+        const filteredBooks = [];
+
+        for (let book of books) {
+            const year = parseInt(book.getElementsByTagName('year')[0].textContent);
+            if (comparison === 'greater' && year > yearFilter) {
+                filteredBooks.push(book);
+            } else if (comparison === 'less' && year < yearFilter) {
+                filteredBooks.push(book);
+            }
+        }
+        displayBooks(filteredBooks);
+    }
+
+    function displayBooks(books) { // vai receber como parametro uma lista de livros
+        const results = document.getElementById('results'); //onde irei mostrar os livros do filtro
+        results.innerHTML = ''; //inicialmente é vazio
+
+        for (let book of books) { // percorro a lista de livros e mostro cada um deles na tela
+            results.innerHTML += `
+                    <div>
+                        <h3>${book.getElementsByTagName('title')[0].textContent}</h3>
+                        <p>Autor: ${book.getElementsByTagName('author')[0].textContent}</p>
+                        <p>Ano: ${book.getElementsByTagName('year')[0].textContent}</p>
+                        <p>Preço: ${book.getElementsByTagName('price')[0].textContent}</p>
+                    </div>
+                `;
+        }
+    }
+
+</script>
+</body>
+</html>

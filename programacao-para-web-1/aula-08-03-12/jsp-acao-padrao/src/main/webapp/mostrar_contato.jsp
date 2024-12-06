@@ -7,6 +7,7 @@
   </head>
   
 <body>
+    <h1>Teste: JSP:useBeans + Property </h1>
 <%--
     <jsp:setProperty name = "contato" property = "*"/>
     Só funciona porque o nome do atributo do objeto Contato é igual ao nome do campo do formulário

@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,14 @@ public class AtualizarProdutoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Configura o tipo de resposta para HTML com encoding UTF-8
         response.setContentType("text/html;charset=UTF-8");
+
+        // Verifica se o usuário está logado
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("usuario") == null) {
+            response.sendRedirect("login"); // Redireciona para a página de login
+            return;
+        }
+
 
         // Obtém o escritor para enviar a resposta
         try (PrintWriter out = response.getWriter()) {

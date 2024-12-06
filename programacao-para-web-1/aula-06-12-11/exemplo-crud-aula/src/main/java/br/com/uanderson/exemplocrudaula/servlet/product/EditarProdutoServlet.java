@@ -82,7 +82,6 @@ public class EditarProdutoServlet extends HttpServlet {
                 out.println("</body>");
                 out.println("</html>");
 
-
             } else {
                 out.print("<p>Você precisa estar logado.");
             }

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            font-size: 1.5rem;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .verde{
+            color: green;
+        }
+
+        .azul{
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="pai">
+        <p id="p" class="azul">Filho 1</p>
+        <p id="p2">Filho 2</p>
+        <p id="p3">Filho 3</p>
+    </div>
+
+    <p id="teste"></p>
+
+    <script>
+
+        var p = document.getElementById('p');
+        var p2 = document.getElementById('p2');
+        var p3 = document.getElementById('p3');
+        var teste = document.getElementById('teste');
+
+
+        teste.innerHTML = p.nodeName;
+        var primeiroFilho = p.firstChild;
+        primeiroFilho.nodeValue = 'Primeiro filho';
+
+
+        p2.setAttribute('class', 'verde');
+
+        //teste.innerHTML = p3.attributes[1].nodeValue = 'azul';
+
+        //remover
+        var pai = document.getElementById('pai');
+        var filho = document.getElementById('p');
+        pai.removeChild(filho); //Pai remove filho
+
+        //filho.parentNode.removeChild(filho); // Filho chama o pai e remove o filho
+
+       var atributo =  p2.getAttributeNode('class');
+       teste.innerHTML = atributo.nodeValue;
+       p2.removeAttributeNode(atributo);
+
+
+
+
+
+
+
+
+
+
+    </script>
+    
+</body>
+</html>

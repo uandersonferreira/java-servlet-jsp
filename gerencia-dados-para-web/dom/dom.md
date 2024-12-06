@@ -167,8 +167,11 @@
 - **Retorna**: Um número que representa o tipo do nó (ex.: `1` para elementos, `3` para nós de texto).
 - **Tipos Comuns**:
   - `1`: Elemento
+  - `2`: Atributo
   - `3`: Texto
   - `8`: Comentário
+  - `9`: Documento
+
 - **Exemplo**:
   ```javascript
   const elemento = document.querySelector('div');
@@ -282,3 +285,214 @@ console.log('nodeType do comentário:', comentario.nodeType); // 8 (Comentário)
 - **Nós de Documento**: Representam o documento inteiro e são a raiz da árvore do DOM. Todos os outros nós são descendentes deste nó.
 - **Nós de Tipo de Documento**: Representam a declaração do tipo de documento, como `<!DOCTYPE html>`, que indica a versão do HTML utilizada.
 
+
+### **nodeValue**
+
+A propriedade `nodeValue` do DOM é usada para acessar ou modificar o conteúdo de **nós** (nodes) em uma árvore DOM. Ela pode ser aplicada a diferentes tipos de nós, mas seu comportamento varia dependendo do tipo de nó. Aqui está um guia detalhado:
+
+---
+
+#### **Para nós de texto (nodeType 3)**
+Os nós de texto são aqueles que contêm somente texto puro, sem formatação. A propriedade `nodeValue`:
+
+- Retorna o conteúdo textual do nó.
+- Pode ser usada para **ler** ou **alterar** o texto diretamente.
+
+**Exemplo:**
+```javascript
+const paragrafo = document.querySelector('p'); // Seleciona o primeiro parágrafo
+const textoNode = paragrafo.firstChild; // Obtém o nó de texto (filho do parágrafo)
+console.log(textoNode.nodeValue); // Mostra o texto atual do nó
+textoNode.nodeValue = "Novo texto"; // Altera o conteúdo do texto
+```
+
+#### **Para outros tipos de nós**
+1. **Elementos (nodeType 1):**
+   - `nodeValue` retorna `null`.
+   - Os elementos, como `<div>` ou `<p>`, não possuem valor de nó diretamente. É necessário acessar seus nós filhos de texto para usar `nodeValue`.
+
+2. **Atributos (nodeType 2):**
+   - `nodeValue` retorna o valor do atributo.
+
+   **Exemplo:**
+   ```javascript
+   const link = document.querySelector('a');
+   const atributo = link.getAttributeNode('href'); // Obtém o nó do atributo
+   console.log(atributo.nodeValue); // Mostra o valor do atributo href
+   atributo.nodeValue = "https://novo-link.com"; // Altera o valor do atributo
+   ```
+
+3. **Comentários (nodeType 8):**
+   - `nodeValue` retorna o conteúdo do comentário.
+
+   **Exemplo:**
+   ```javascript
+   const comentario = document.createComment('Este é um comentário');
+   console.log(comentario.nodeValue); // "Este é um comentário"
+   comentario.nodeValue = 'Comentário atualizado'; // Altera o conteúdo do comentário
+   console.log(comentario.nodeValue); // "Comentário atualizado"
+   ```
+
+---
+
+### **Pontos importantes sobre `nodeValue`**
+- **Uso em nós de texto:** 
+  O `nodeValue` é mais utilizado para manipular nós de texto puros. É útil, por exemplo, quando você quer alterar o texto sem mexer diretamente no HTML.
+  
+- **Alternativas mais comuns:**
+  Apesar de funcional, é mais comum usar propriedades como:
+  - `textContent`: Para manipular o texto diretamente.
+  - `innerHTML`: Para manipular o conteúdo HTML.
+
+  **Exemplo de comparação:**
+  ```javascript
+  const paragrafo = document.querySelector('p');
+  console.log(paragrafo.textContent); // Retorna o texto do elemento
+  console.log(paragrafo.innerHTML); // Retorna o conteúdo HTML do elemento
+  ```
+
+- **Manipulação de nós filhos:**
+  Ao usar `nodeValue` em elementos que possuem filhos, você precisa acessar os **nós de texto** diretamente:
+  ```javascript
+  const div = document.querySelector('div');
+  const textoNode = div.firstChild; // Obtém o nó de texto
+  console.log(textoNode.nodeValue); // Exibe o texto
+  textoNode.nodeValue = "Texto alterado"; // Altera o conteúdo do texto
+  ```
+
+- **Elementos folha:**
+  Para nós que não têm filhos (nós folha), `nodeValue` pode ser usado diretamente no nó de texto.
+
+---
+
+### **Conclusão**
+A propriedade `nodeValue` é poderosa quando você precisa trabalhar diretamente com nós de texto ou outros tipos de nós, como atributos e comentários. No entanto, para manipular elementos HTML e texto de forma mais direta e abrangente, propriedades como `textContent` e `innerHTML` geralmente são preferidas. 
+
+### **Resumo da funcionalidade do `nodeValue`**
+| **Tipo de Nó**       | **nodeType** | **Retorno de nodeValue**            |
+|-----------------------|--------------|-------------------------------------|
+| **Texto**            | 3            | Conteúdo textual do nó             |
+| **Elemento**         | 1            | `null`                              |
+| **Atributo**         | 2            | Valor do atributo                  |
+| **Comentário**       | 8            | Conteúdo do comentário             |
+
+
+Abaixo está um exemplo completo de manipulação dos nós usando o DOM, com base na estrutura XML que você forneceu:
+
+### **Exemplo de Manipulação com `nodeValue`**
+
+```javascript
+// Suponha que temos este XML carregado em uma string
+const xmlString = `
+<Pessoa>
+    <nome>José Silva</nome>
+    <email>josesilva@gmail.com</email>
+    <data_nascimento>10-12-2000</data_nascimento>
+    <telefones>
+        <celular>98123 4321</celular>
+        <fixo>3223 3434</fixo>
+    </telefones>
+</Pessoa>`;
+
+// Parseamos o XML para criar um documento DOM
+const parser = new DOMParser();
+const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+// 1. **Acessando a raiz (<Pessoa>):**
+const raiz = xmlDoc.documentElement; // Raiz é <Pessoa>
+console.log("Raiz:", raiz.nodeName); // Saída: Pessoa
+
+// 2. **Acessando os filhos diretos da raiz:**
+const filhos = raiz.childNodes; // Inclui os elementos filhos e possíveis nós de texto
+filhos.forEach((filho) => {
+    if (filho.nodeType === 1) {
+        console.log(`Filho: ${filho.nodeName}, Valor: ${filho.firstChild.nodeValue.trim()}`);
+    }
+});
+
+// 3. **Manipulando o nó folha (texto do <nome>):**
+const nomeNode = xmlDoc.querySelector("nome"); // Seleciona o nó <nome>
+console.log("Nome antes:", nomeNode.firstChild.nodeValue); // José Silva
+nomeNode.firstChild.nodeValue = "João Santos"; // Altera o texto
+console.log("Nome depois:", nomeNode.firstChild.nodeValue); // João Santos
+
+// 4. **Acessando o pai de um nó (parentNode):**
+const emailNode = xmlDoc.querySelector("email");
+console.log("Pai do nó <email>:", emailNode.parentNode.nodeName); // Pessoa
+
+// 5. **Acessando os nós folha em <telefones>:**
+const telefonesNode = xmlDoc.querySelector("telefones"); // Seleciona <telefones>
+telefonesNode.childNodes.forEach((telefone) => {
+    if (telefone.nodeType === 1) { // Ignora nós de texto e foca em elementos
+        console.log(`${telefone.nodeName}: ${telefone.firstChild.nodeValue.trim()}`);
+    }
+});
+
+// 6. **Adicionando um novo filho em <telefones>:**
+const novoTelefone = xmlDoc.createElement("trabalho"); // Cria um novo nó
+novoTelefone.appendChild(xmlDoc.createTextNode("98765 4321")); // Adiciona o texto
+telefonesNode.appendChild(novoTelefone); // Adiciona o novo nó à lista de telefones
+
+console.log("Novo XML:");
+console.log(new XMLSerializer().serializeToString(xmlDoc)); // Exibe o XML atualizado
+```
+
+---
+
+### **Saída no Console**
+
+1. **Raiz:**
+   ```
+   Raiz: Pessoa
+   ```
+
+2. **Filhos diretos da raiz:**
+   ```
+   Filho: nome, Valor: José Silva
+   Filho: email, Valor: josesilva@gmail.com
+   Filho: data_nascimento, Valor: 10-12-2000
+   Filho: telefones, Valor: [Não exibido porque o nó contém elementos]
+   ```
+
+3. **Manipulação do `<nome>`:**
+   ```
+   Nome antes: José Silva
+   Nome depois: João Santos
+   ```
+
+4. **Pai do `<email>`:**
+   ```
+   Pai do nó <email>: Pessoa
+   ```
+
+5. **Nós folha em `<telefones>`:**
+   ```
+   celular: 98123 4321
+   fixo: 3223 3434
+   ```
+
+6. **XML atualizado após adicionar `<trabalho>`:**
+   ```xml
+   <Pessoa>
+       <nome>João Santos</nome>
+       <email>josesilva@gmail.com</email>
+       <data_nascimento>10-12-2000</data_nascimento>
+       <telefones>
+           <celular>98123 4321</celular>
+           <fixo>3223 3434</fixo>
+           <trabalho>98765 4321</trabalho>
+       </telefones>
+   </Pessoa>
+   ```
+
+---
+
+### **Explicação do Código**
+1. **`documentElement`:** Obtém a raiz do documento XML (`<Pessoa>`).
+2. **`childNodes`:** Lista todos os filhos diretos, incluindo nós de texto.
+3. **`nodeValue`:** Manipula os textos dos nós folha diretamente.
+4. **`parentNode`:** Permite acessar o pai de um nó.
+5. **`createElement` e `createTextNode`:** Usados para criar novos elementos e textos, que podem ser adicionados ao DOM.
+6. **`serializeToString`:** Converte o documento DOM em uma string XML.
+
+Com esse exemplo, você pode explorar como navegar, acessar e manipular diferentes partes de uma árvore XML usando o DOM.
