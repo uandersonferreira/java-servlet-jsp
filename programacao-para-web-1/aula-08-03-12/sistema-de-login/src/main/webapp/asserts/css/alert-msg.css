@@ -1,0 +1,137 @@
+.alert-msg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo CSS para a classe de erro */
+.error-message {
+    background-color: #f8d7da; /* Vermelho claro */
+    color: #842029; /* Vermelho escuro para texto */
+    padding: 15px; /* Espaçamento interno */
+    margin-bottom: 20px; /* Espaçamento inferior */
+    border: 1px solid #f5c2c7; /* Borda levemente mais escura */
+    border-radius: 5px; /* Cantos arredondados */
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: bold; /* Texto em negrito */
+    display: flex; /* Facilita alinhamento interno */
+    align-items: center; /* Alinha texto e ícones */
+    gap: 10px; /* Espaço entre elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    transition: opacity 0.5s ease-in-out; /* Suaviza mudanças de opacidade */
+}
+
+.error-message::before {
+    content: '⚠️'; /* Ícone ou emoji */
+    font-size: 20px; /* Tamanho do ícone */
+}
+
+/* Estilo para mensagens de atualização */
+.success-message {
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde escuro para texto */
+    padding: 15px; /* Espaçamento interno */
+    margin-bottom: 20px; /* Espaçamento inferior */
+    border: 1px solid #c3e6cb; /* Borda levemente mais escura */
+    border-radius: 5px; /* Cantos arredondados */
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: bold; /* Texto em negrito */
+    display: flex; /* Facilita alinhamento interno */
+    align-items: center; /* Alinha texto e ícones */
+    gap: 10px; /* Espaço entre elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    transition: opacity 0.5s ease-in-out; /* Suaviza mudanças de opacidade */
+}
+
+.success-message::before {
+    content: '✅'; /* Ícone ou emoji */
+    font-size: 20px; /* Tamanho do ícone */
+}
+
+/* Estilo para mensagens de criação */
+.create-message {
+    background-color: #cce5ff; /* Azul claro */
+    color: #004085; /* Azul escuro para texto */
+    padding: 15px; /* Espaçamento interno */
+    margin-bottom: 20px; /* Espaçamento inferior */
+    border: 1px solid #b8daff; /* Borda levemente mais escura */
+    border-radius: 5px; /* Cantos arredondados */
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: bold; /* Texto em negrito */
+    display: flex; /* Facilita alinhamento interno */
+    align-items: center; /* Alinha texto e ícones */
+    gap: 10px; /* Espaço entre elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    transition: opacity 0.5s ease-in-out; /* Suaviza mudanças de opacidade */
+}
+
+.create-message::before {
+    content: '🆕'; /* Ícone ou emoji */
+    font-size: 20px; /* Tamanho do ícone */
+}
+
+/* Estilo para mensagens de exclusão */
+.delete-message {
+    background-color: #fff3cd; /* Amarelo claro */
+    color: #856404; /* Amarelo escuro para texto */
+    padding: 15px; /* Espaçamento interno */
+    margin-bottom: 20px; /* Espaçamento inferior */
+    border: 1px solid #ffeeba; /* Borda levemente mais escura */
+    border-radius: 5px; /* Cantos arredondados */
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: bold; /* Texto em negrito */
+    display: flex; /* Facilita alinhamento interno */
+    align-items: center; /* Alinha texto e ícones */
+    gap: 10px; /* Espaço entre elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    transition: opacity 0.5s ease-in-out; /* Suaviza mudanças de opacidade */
+}
+
+.delete-message::before {
+    content: '🗑️'; /* Ícone ou emoji */
+    font-size: 20px; /* Tamanho do ícone */
+}
+
+/* Estilo para mensagens de alerta */
+.alert-message {
+    background-color: #fff4e5; /* Laranja claro */
+    color: #cc7000; /* Laranja escuro para texto */
+    padding: 15px; /* Espaçamento interno */
+    margin-bottom: 20px; /* Espaçamento inferior */
+    border: 1px solid #ffd9b3; /* Borda laranja mais escura */
+    border-radius: 5px; /* Cantos arredondados */
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: bold; /* Texto em negrito */
+    display: flex; /* Facilita alinhamento interno */
+    align-items: center; /* Alinha texto e ícones */
+    gap: 10px; /* Espaço entre elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    transition: opacity 0.5s ease-in-out; /* Suaviza mudanças de opacidade */
+}
+
+.alert-message::before {
+    content: '⚠️'; /* Ícone ou emoji */
+    font-size: 20px; /* Tamanho do ícone */
+}
+
+/* Estilo para mensagens de informação */
+.info-message {
+    background-color: #e2e3e5; /* Cinza claro */
+    color: #383d41; /* Cinza escuro para texto */
+    padding: 15px; /* Espaçamento interno */
+    margin-bottom: 20px; /* Espaçamento inferior */
+    border: 1px solid #d6d8db; /* Borda levemente mais escura */
+    border-radius: 5px; /* Cantos arredondados */
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: bold; /* Texto em negrito */
+    display: flex; /* Facilita alinhamento interno */
+    align-items: center; /* Alinha texto e ícones */
+    gap: 10px; /* Espaço entre elementos */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    transition: opacity 0.5s ease-in-out; /* Suaviza mudanças de opacidade */
+}
+
+.info-message::before {
+    content: 'ℹ️'; /* Ícone ou emoji */
+    font-size: 20px; /* Tamanho do ícone */
+}
