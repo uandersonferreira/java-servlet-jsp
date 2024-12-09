@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulação do DOM</title>
+    <link rel="stylesheet" href="exemplo-02.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <input type="text" placeholder="Digite algo">
+        <button id="botao">Adicionar</button>
+        <ul id="lista"></ul>
+    </div>
+
+    <script>
+        document.getElementById('botao').addEventListener('click', adicionarItem);
+
+        function adicionarItem() {
+            const inputValue = document.querySelector('input[type="text"]').value;
+
+            if (inputValue.trim() === '') {
+                alert('Por favor, insira um texto válido.');
+                return;
+            }
+
+            const lista = document.getElementById('lista');//ul
+            const li = document.createElement('li');
+            li.textContent = inputValue;
+
+            // Criar container para botões
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'button-container';
+
+            // Adicionar botões
+            const botaoEditar = criarBotaoEditar(li, buttonContainer);
+            const botaoRemover = criarBotaoRemover(li);
+
+            buttonContainer.appendChild(botaoEditar);
+            buttonContainer.appendChild(botaoRemover);
+            li.appendChild(buttonContainer);
+
+            lista.appendChild(li);
+
+            limparInput();
+        }//adicionarItem
+
+        function criarBotaoRemover(li) {
+            const botaoRemover = document.createElement('input');
+            botaoRemover.type = 'button';
+            botaoRemover.value = 'Remover';
+            botaoRemover.addEventListener('click', function () {
+                li.remove();
+            });
+            return botaoRemover; //Elemento HTML
+        }//criarBotaoRemover
+
+        function criarBotaoEditar(li, buttonContainer) {
+            const botaoEditar = document.createElement('input');
+            botaoEditar.type = 'button';
+            botaoEditar.value = 'Editar';
+            botaoEditar.className = 'edit-button';
+
+            botaoEditar.addEventListener('click', function () {
+                const textoPrincipal = li.firstChild.textContent;// Captura apenas o texto principal, sem os botões
+
+                const inputEdit = document.createElement('input');// Cria o campo de entrada para edição
+                inputEdit.type = 'text';
+                inputEdit.value = textoPrincipal.trim(); // Remove espaços desnecessários
+                
+                li.innerHTML = ''; // Limpa o conteúdo do <li>
+
+                li.appendChild(inputEdit);  // Adiciona o campo de entrada ao <li>
+
+                // Cria o botão "Salvar"
+                const botaoSalvar = document.createElement('button');
+                botaoSalvar.textContent = 'Salvar';
+                botaoSalvar.style.marginLeft = '10px';
+
+                // Define a funcionalidade do botão "Salvar"
+                botaoSalvar.addEventListener('click', function () {
+                    // Atualiza o texto do <li> com o valor do campo de entrada
+                    li.textContent = inputEdit.value;
+
+                    // Reanexa os botões ao <li>
+                    li.appendChild(buttonContainer);
+                });
+
+                // Adiciona o botão "Salvar" ao <li>
+                li.appendChild(botaoSalvar);
+            });
+
+            return botaoEditar;
+        }//criarBotaoEditar
+
+        function limparInput() {
+            const input = document.querySelector('input[type="text"]');
+            input.value = '';
+            input.focus();
+        }//limparInput
+
+    </script>
+
+</body>
+
+</html>
