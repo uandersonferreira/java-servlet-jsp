@@ -27,9 +27,9 @@ public class DeleteServlet extends HttpServlet {
                 return;
             }
 
-            int id = Integer.parseInt(tid);
+            Long id = Long.parseLong(tid);
 
-            if (usuarioLogado.getId() != id) {
+            if (usuarioLogado.getId() != id && !usuarioLogado.getAdmin()) {
                 response.sendRedirect("relatorio.jsp?mensagem=alerta-permissao");
                 return;
             }
@@ -39,7 +39,9 @@ public class DeleteServlet extends HttpServlet {
 
             if (usuarios != null) {
                 usuarios.removeIf(u -> u.getId() == id);
-                session.invalidate();
+               if (usuarioLogado.getId() != id && !usuarioLogado.getAdmin()) {
+                   session.invalidate();
+               }
                 response.sendRedirect("index.jsp?mensagem=success-delete-user");
                 return;
             }

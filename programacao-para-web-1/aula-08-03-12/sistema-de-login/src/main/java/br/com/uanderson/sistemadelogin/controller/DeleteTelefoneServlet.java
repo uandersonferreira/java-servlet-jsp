@@ -1,24 +1,29 @@
 package br.com.uanderson.sistemadelogin.controller;
 
 import br.com.uanderson.sistemadelogin.model.Usuario;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "DeleteServlet", value = "/deletarusuario")
-public class DeleteServlet extends HttpServlet {
+@WebServlet(name = "DeleteTelefoneServlet", value = "/deletartelefone")
+public class DeleteTelefoneServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 
-        String tid = request.getParameter("id");
+        String idTelefoneText = request.getParameter("idTelefone");
+        String idUsuarioText = request.getParameter("idUsuario");
 
-        if (tid != null && !tid.isBlank()) {
+        if (idTelefoneText != null && !idUsuarioText.isBlank() && idUsuarioText != null && !idUsuarioText.isBlank()) {
             HttpSession session = request.getSession();
             Usuario usuarioLogado = (Usuario) session.getAttribute("usuario");
 
@@ -27,9 +32,10 @@ public class DeleteServlet extends HttpServlet {
                 return;
             }
 
-            Long id = Long.parseLong(tid);
+            Long idUsuario = Long.parseLong(idUsuarioText);
+            Long idTelefone = Long.parseLong(idTelefoneText);
 
-            if (usuarioLogado.getId() != id && !usuarioLogado.getAdmin()) {
+            if (usuarioLogado.getId() != idUsuario ) {
                 response.sendRedirect("relatorio.jsp?mensagem=alerta-permissao");
                 return;
             }
@@ -38,13 +44,17 @@ public class DeleteServlet extends HttpServlet {
             List<Usuario> usuarios = (List<Usuario>) application.getAttribute("usersContext");
 
             if (usuarios != null) {
-                usuarios.removeIf(u -> u.getId() == id);
-                session.invalidate();
-                response.sendRedirect("index.jsp?mensagem=success-delete-user");
+                for (Usuario usuario : usuarios) {
+                    if (usuario.getTelefones() != null){
+                        usuario.getTelefones().removeIf(t -> t.getId().equals(idTelefone));
+                        break;
+                    }
+                }
+                response.sendRedirect("relatorio.jsp?mensagem=success-delete-telefone");
                 return;
             }
         }
 
-        response.sendRedirect("index.jsp?mensagem=erro-delete-user"); // Erro ao deletar usuário pois usuário não encontrado
+        response.sendRedirect("relatorio.jsp?mensagem=erro-delete-telefone");
     }
 }

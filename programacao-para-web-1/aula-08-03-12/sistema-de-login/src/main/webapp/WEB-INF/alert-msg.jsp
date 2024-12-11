@@ -14,6 +14,7 @@
   mensagens.put("success-create", new String[]{"Operação concluída com sucesso!", "success-message"});
   mensagens.put("success-update-user", new String[]{"Usuário atualizado com sucesso!", "success-message"});
   mensagens.put("success-delete-user", new String[]{"Usuário deletado com sucesso!", "success-message"});
+  mensagens.put("success-delete-telefone", new String[]{"Telefone deletado com sucesso!", "success-message"});
   mensagens.put("success-logout", new String[]{"Usuário deslogado com sucesso. Até logo, " + nomeUsuarioDeslogado, "success-message"});
   
   // Mensagens de erro
@@ -22,6 +23,8 @@
   mensagens.put("erro-create", new String[]{"Erro ao realizar a operação. Tente novamente!", "error-message"});
   mensagens.put("erro-update-user", new String[]{"Erro ao atualizar o usuário. Usuário não encontrado!", "error-message"});
   mensagens.put("erro-delete-user", new String[]{"Erro ao excluir o Usuário. Usuário não encontrado!", "error-message"});
+  mensagens.put("erro-delete-telefone", new String[]{"Erro ao excluir o Telefone. Telefone não encontrado!", "error-message"});
+  mensagens.put("erro-session-invalidate", new String[]{"[Session Inválida] Erro ao acessar funcionalidade, faça login novamente!", "error-message"});
   
   // Mensagens de alerta
   mensagens.put("alerta-campos", new String[]{"Por favor, preencha todos os campos obrigatórios!", "alert-message"});

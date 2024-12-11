@@ -21,6 +21,10 @@
 	            response.setCharacterEncoding("UTF-8");
 	            List<Usuario> usuarios = (List<Usuario>) application.getAttribute("usersContext");
 	            Usuario usuarioLogado = (Usuario) session.getAttribute("usuario");
+                if (usuarioLogado == null){
+                    response.sendRedirect("index.jsp?mensagem=erro-session-invalidate");
+                    return;
+                }
 	            for (Usuario u : usuarios) {
             %>
                 <tr>
@@ -59,12 +63,32 @@
                         
                         <form action = "deletarusuario" method = "post" class = "action-form">
                             <input type = "hidden" name = "id" value = "<%= u.getId() %>">
-                            <% if (u.equals(usuarioLogado)) { %>
+                            <% if (u.equals(usuarioLogado) || usuarioLogado.isAdmin()) { %>
                                 <button type = "submit" class = "btn btn-delete">Deletar</button>
                             <% } else { %>
                                  <button class = "btn disabled-action" disabled>Deletar</button>
                             <% } %>
                         </form>
+                        
+                        <form action = "adicionartelefone.jsp" method = "post" class = "action-form">
+                            <input type = "hidden" name = "id" value = "<%= u.getId() %>">
+                            <% if (u.equals(usuarioLogado)) { %>
+                                <button type = "submit" class = "btn btn-fone">+ Fone</button>
+                            <% } else { %>
+                                 <button class = "btn disabled-action" disabled>+ Fone</button>
+                            <% } %>
+                        </form>
+                        
+                        <form action = "visualizartelefone.jsp" method = "post" class = "action-form">
+                            <input type = "hidden" name = "id" value = "<%= u.getId() %>">
+                            <% if (u.equals(usuarioLogado)) { %>
+                                <button type = "submit" class = "btn btn-fone">Visualizar Fone</button>
+                            <% } else { %>
+                                 <button class = "btn disabled-action" disabled>Visualizar Fone</button>
+                            <% } %>
+                        </form>
+                        
+                        
                         
                     </td>
                 </tr>

@@ -66,6 +66,15 @@
     background-color: #0056b3;
 }
 
+.btn-fone {
+    background-color: #ff8000;
+    color: white;
+}
+
+.btn-fone:hover {
+    background-color: #ff8000;
+}
+
 /* Botão Deletar */
 .btn-delete {
     background-color: #FF4D4D;
