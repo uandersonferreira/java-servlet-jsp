@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalStorage Example</title>
+  </head>
+  <body>
+    <h1>LocalStorage Demo</h1>
+    <input type="text" id="name" placeholder="Digite seu nome" />
+    <button id="save">Salvar</button>
+    <button id="clear">Limpar</button>
+    <p id="display"></p>
+
+    <script>
+      const nameInput = document.getElementById("name");
+      const saveButton = document.getElementById("save");
+      const clearButton = document.getElementById("clear");
+      const display = document.getElementById("display");
+
+      // Exibe o valor salvo no LocalStorage
+      function displaySavedName() {
+        const savedName = localStorage.getItem("name");
+        display.textContent = savedName
+          ? `Nome salvo: ${savedName}`
+          : "Nenhum nome salvo";
+      }
+
+      saveButton.addEventListener("click", () => {
+        const name = nameInput.value;
+        localStorage.setItem("name", name);
+        displaySavedName();
+      });
+
+      clearButton.addEventListener("click", () => {
+        localStorage.removeItem("name");
+        displaySavedName();
+      });
+
+      displaySavedName();
+    </script>
+  </body>
+</html>

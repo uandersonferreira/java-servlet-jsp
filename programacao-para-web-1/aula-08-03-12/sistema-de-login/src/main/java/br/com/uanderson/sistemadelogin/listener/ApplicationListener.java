@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebListener
-public class AplicationListener implements ServletContextListener {
+public class ApplicationListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext servletContext = sce.getServletContext();

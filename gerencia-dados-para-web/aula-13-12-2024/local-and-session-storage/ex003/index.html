@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SessionStorage Example</title>
+  </head>
+  <body>
+    <h1>SessionStorage Demo</h1>
+    <p id="visits"></p>
+
+    <script>
+      // Incrementa contagem de visitas na sessão
+      const visitsKey = "visits";
+      let visits = sessionStorage.getItem(visitsKey);
+
+      if (!visits) {
+        visits = 1;
+      } else {
+        visits = parseInt(visits) + 1;
+      }
+
+      sessionStorage.setItem(visitsKey, visits);
+
+      document.getElementById(
+        "visits"
+      ).textContent = `Visitas nesta sessão: ${visits}`;
+    </script>
+  </body>
+</html>
