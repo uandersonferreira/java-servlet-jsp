@@ -1,0 +1,101 @@
+<listas>
+    <lista id="1">
+        <titulo> Lista de Exercícios - Matemática </titulo>
+        <itens>
+            <item feito="Não"> Resolver equação de 2º grau </item>
+            <item feito="Não"> Estudar frações </item>
+            <item Sim> Revisar geometria analítica </item>
+            <item prioridade="Sim" feito="Não"> Preparar relatório de álgebra </item>
+        </itens>
+    </lista>
+
+    <lista id="2">
+        <titulo> Lista de Exercícios - História </titulo>
+        <itens>
+            <item feito="Sim"> Estudar a Revolução Francesa </item>
+            <item feito="Sim"> Ler sobre a Primeira Guerra Mundial </item>
+            <item feito="sim"> Revisar a Idade Média </item>
+            <item prioridade="Não" feito="Sim"> Assistir ao documentário sobre a Segunda Guerra </item>
+        </itens>
+    </lista>
+
+    <!-- <lista id="3">
+        <titulo> Lista de Exercícios - Física </titulo>
+        <itens>
+            <item feito="Não"> Resolver problemas de cinemática </item>
+            <item feito="Sim"> Estudar as leis de Newton </item>
+            <item > Revisar a teoria da relatividade </item>
+            <item prioridade="Não" feito="Não"> Fazer exercícios sobre eletricidade </item>
+        </itens>
+    </lista>
+
+    <lista id="4">
+        <titulo> Lista de Exercícios - Química </titulo>
+        <itens>
+            <item feito="Sim"> Estudar a tabela periódica </item>
+            <item feito="Sim"> Resolver questões sobre ácidos e bases </item>
+            <item > Revisar as reações orgânicas </item>
+            <item prioridade="Não" feito="Não"> Estudar os tipos de ligações químicas </item>
+        </itens>
+    </lista>
+
+    <lista id="5">
+        <titulo> Lista de Exercícios - Literatura </titulo>
+        <itens>
+            <item feito="Não"> Ler "Dom Casmurro" de Machado de Assis </item>
+            <item feito="Sim"> Estudar o Modernismo no Brasil </item>
+            <item> Revisar a obra de Clarice Lispector </item>
+            <item prioridade="Não" feito="Não"> Analisar a literatura barroca </item>
+        </itens>
+    </lista>
+
+    <lista id="6">
+        <titulo> Lista de Exercícios - Filosofia </titulo>
+        <itens>
+            <item feito="Sim"> Estudar o pensamento de Platão </item>
+            <item feito="Não"> Ler sobre a filosofia existencialista </item>
+            <item > Revisar a ética de Aristóteles </item>
+            <item prioridade="Não" feito="Não"> Assistir aula sobre Nietzsche </item>
+        </itens>
+    </lista>
+
+    <lista id="7">
+        <titulo> Lista de Exercícios - Inglês </titulo>
+        <itens>
+            <item feito="Sim"> Estudar vocabulário sobre profissões </item>
+            <item feito="Não"> Praticar listening sobre viagens </item>
+            <item> Revisar tempos verbais </item>
+            <item prioridade="Não" feito="Não"> Ler sobre phrasal verbs </item>
+        </itens>
+    </lista>
+
+    <lista id="8">
+        <titulo> Lista de Exercícios - Geografia </titulo>
+        <itens>
+            <item feito="Sim"> Estudar o mapa político do Brasil </item>
+            <item feito="Não"> Ler sobre as camadas da Terra </item>
+            <item prioridade="Sim"> Revisar os biomas do Brasil </item>
+            <item  feito="Não"> Analisar os fenômenos climáticos </item>
+        </itens>
+    </lista>
+
+    <lista id="9">
+        <titulo> Lista de Exercícios - Biologia </titulo>
+        <itens>
+            <item feito="Sim"> Estudar a célula e suas organelas </item>
+            <item feito="Não"> Ler sobre genética mendeliana </item>
+            <item > Revisar a teoria da evolução de Darwin </item>
+            <item prioridade="Não" feito="Não"> Fazer questões sobre ecologia </item>
+        </itens>
+    </lista>
+
+    <lista id="10">
+        <titulo> Lista de Exercícios - Filosofia </titulo>
+        <itens>
+            <item feito="Sim"> Estudar o conceito de ética </item>
+            <item feito="Não"> Ler sobre a teoria do conhecimento de Kant </item>
+            <item > Revisar a ética utilitarista </item>
+            <item prioridade="Sim" feito="Não"> Assistir a vídeos sobre epistemologia </item>
+        </itens>
+    </lista> -->
+</listas>

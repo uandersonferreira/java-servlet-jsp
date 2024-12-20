@@ -1,0 +1,12 @@
+<cardapio>
+    <prato>
+        <nome> </nome>
+        <ingredientes>
+            <item1> </item1>
+            <item1> </item1>
+        </ingredientes>
+        <imagem> </imagem>
+        <preco> </preco>
+    </prato>
+</cardapio>
+

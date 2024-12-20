@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h2>Ajax</h2>
+
+    <input type="button" value="Buscar Dados" id="botao">
+    <article id="res"></article>
+
+    <hr>
+
+    <input type="button" value="Buscar XML" id="botaoXML">
+    <article id="resXML"></article>
+
+</body>
+
+<script>
+    // Função AJAX genérica
+    function ajax(caminho, funcao) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = funcao;
+        xhttp.open("GET", caminho, true);
+        xhttp.send();
+    }
+
+    // Manipulação para buscar dados TXT
+    document.getElementById("botao").addEventListener("click", function () {
+        ajax("dados.txt", executarTXT);
+    });
+
+    function executarTXT() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Obtem o elemento para exibir os dados
+            const res = document.getElementById("res");
+            res.textContent = ""; // Limpa o conteúdo existente
+
+            // Divide o texto em linhas
+            const linhas = this.responseText.split("\n");
+
+            // Adiciona cada linha como um parágrafo
+            linhas.forEach((linha) => {
+                const p = document.createElement("p");
+                const texto = document.createTextNode(linha);
+                p.appendChild(texto);
+                res.appendChild(p);
+            });
+        }
+    }
+
+    // Manipulação para buscar dados XML
+    document.getElementById("botaoXML").addEventListener("click", function () {
+        ajax("nota.xml", executarXML);
+    });
+
+    function executarXML() {
+        if (this.readyState == 4 && this.status == 200) {
+            const xml = this.responseXML;
+
+            // Seleciona o elemento para exibir os dados
+            const resXML = document.getElementById("resXML");
+            resXML.textContent = ""; // Limpa o conteúdo existente
+
+            // Itera pelos nós filhos do elemento raiz
+            const filhos = xml.documentElement.childNodes;
+            for (let i = 0; i < filhos.length; i++) {
+                const filho = filhos[i];
+
+                // Verifica se o nó atual é um elemento
+                if (filho.nodeType === 1) {
+                    // Cria elementos <p> e insere o nome e valor do nó
+                    const p = document.createElement("p");
+
+                    const strong = document.createElement("strong");
+                    const strongText = document.createTextNode(filho.nodeName + ": ");
+                    strong.appendChild(strongText);
+
+                    const text = document.createTextNode(filho.firstChild.nodeValue);
+
+                    // Adiciona <strong> e o texto ao <p>
+                    p.appendChild(strong);
+                    p.appendChild(text);
+
+                    // Adiciona o <p> ao elemento de resultados
+                    resXML.appendChild(p);
+                }
+            }
+        }
+    }
+</script>
+
+</html>

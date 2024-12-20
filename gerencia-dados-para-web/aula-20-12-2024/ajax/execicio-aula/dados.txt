@@ -1,0 +1,1 @@
+Qualquer informação aleatoria para teste do uso de ajax.

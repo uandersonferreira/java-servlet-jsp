@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX POST</title>
+</head>
+<body>
+    <h1>Enviar Dados com AJAX</h1>
+    <form id="dataForm">
+        <input type="text" id="name" placeholder="Digite seu nome" required>
+        <button type="submit">Enviar</button>
+    </form>
+    <p id="responseMessage"></p>
+
+    <script>
+        document.getElementById("dataForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            
+            const name = document.getElementById("name").value;
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://jsonplaceholder.typicode.com/posts", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 201) {
+                    const response = JSON.parse(xhr.responseText);
+                    document.getElementById("responseMessage").innerText =
+                        `Dados enviados com sucesso! ID gerado: ${response.id}`;
+                }
+            };
+
+            const data = JSON.stringify({ name });
+            xhr.send(data);
+        });
+    </script>
+</body>
+</html>

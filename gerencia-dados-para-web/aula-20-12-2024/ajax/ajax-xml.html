@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX com XML e DOM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Livros Disponíveis</h1>
+    <button id="loadBooksBtn">Carregar Livros</button>
+    <ul id="bookList"></ul>
+
+    <script>
+        document.getElementById("loadBooksBtn").addEventListener("click", function () {
+            // Criação do objeto XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "dados.xml", true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Obter a resposta em XML
+                    const xml = xhr.responseXML;
+
+                    // Selecionar todos os elementos <book>
+                    const books = xml.getElementsByTagName("book");
+
+
+                    // Selecionar o elemento do DOM para inserir os dados
+                    const bookList = document.getElementById("bookList");
+                    bookList.innerHTML = ""; // Limpa a lista antes de inserir os dados
+
+                    // Iterar pelos elementos <book> e adicionar ao DOM
+                    for (let i = 0; i < books.length; i++) {
+                        const title = books[i].getElementsByTagName("title")[0].textContent;
+                        const author = books[i].getElementsByTagName("author")[0].textContent;
+
+                        const li = document.createElement("li");
+                        li.innerHTML = `<strong>${title}</strong> - <em>${author}</em>`;
+                        bookList.appendChild(li);
+                    }
+                }
+            };
+
+            xhr.send();
+        });
+    </script>
+</body>
+</html>
+
+
+
+<!-- 
+
+<script>
+    document.getElementById("loadBooksBtn").addEventListener("click", function () {
+        // Criação do objeto XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "dados.xml", true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Obter a resposta em XML
+                const xml = xhr.responseXML;
+
+                // Selecionar todos os elementos filhos do nó raiz usando childNodes
+                const books = xml.documentElement.childNodes;
+
+                // Selecionar o elemento do DOM para inserir os dados
+                const bookList = document.getElementById("bookList");
+                bookList.innerHTML = ""; // Limpa a lista antes de inserir os dados
+
+                // Iterar pelos nós filhos
+                for (let i = 0; i < books.length; i++) {
+                    const book = books[i];
+
+                    // Verifica se o nó atual é um elemento (nodeType === 1)
+                    if (book.nodeType === 1) {
+                        const titleNode = book.getElementsByTagName("title")[0];
+                        const authorNode = book.getElementsByTagName("author")[0];
+
+                        // Verifica se os elementos <title> e <author> existem
+                        if (titleNode && authorNode) {
+                            const title = titleNode.textContent;
+                            const author = authorNode.textContent;
+
+                            const li = document.createElement("li");
+                            li.innerHTML = `<strong>${title}</strong> - <em>${author}</em>`;
+                            bookList.appendChild(li);
+                        }
+                    }
+                }
+            }
+        };
+
+        xhr.send();
+    });
+</script>
+
+
+
+-->
