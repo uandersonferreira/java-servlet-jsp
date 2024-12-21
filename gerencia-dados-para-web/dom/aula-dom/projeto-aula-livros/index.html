@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Livros</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Gerenciador de Livros</h1>
+    <form id="bookForm">
+        <label for="title">Título:</label>
+        <input type="text" id="title" required>
+        <br>
+        <div id="authorsList">
+            <label for="author">Autor:</label>
+            <input type="text" class="author" required>
+            <button type="button" id="addAuthor">Adicionar Autor</button>
+        </div>
+        <br>
+        <label for="year">Ano:</label>
+        <input type="number" id="year" required>
+        <br>
+        <label for="price">Preço:</label>
+        <input type="number" id="price" required>
+        <br>
+        <button type="submit">Adicionar Livro</button>
+    </form>
+
+    <section id="bookList"></section>
+
+
+
+    <script src="app.js"></script>
+</body>
+</html>

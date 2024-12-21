@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuando com DOM</title>
+    <style>
+        .verde {
+            color: green;
+        }
+
+        .azul {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="pai">
+        <p id="p">Filho 1</p>
+        <p>Filho 2</p>
+        <p>Filho 3</p>
+    </div>
+
+    <hr>
+
+    <div id="pai-2">
+        <p id="p-2" class="verde">Filho 1</p>
+        <p>Filho 2</p>
+        <p>Filho 3</p>
+    </div>
+
+    <p id="demo"></p>
+
+    <hr>
+
+    <h2>Remover filho</h2>
+    <div id="pai-4">
+        <p id="p-4" class="verde">Filho 1</p>
+        <p id="p-5">Filho 2</p>
+        <p>Filho 3</p>
+        <div id="div-1">
+            <p>teste</p>
+            <span>Apenas um span</span>
+            <a href="#">link 1</a>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Remover Atributo</h2>
+    <div>
+        <p id="p-6" class="verde">Filho 1</p>
+    </div>
+
+    <hr>
+
+    <h2>Criando novo atributo ao elemento</h2>
+    <div>
+        <p id="p-7">Filho 1</p>
+    </div>
+
+    <hr>
+
+    <h2>adicionando nó a árvore de nós</h2>
+    <div id="pai-8">
+        <p id="p-8">Filho 1</p>
+        <p id="p-9" class="verde">OlaMundo</p>
+    </div>
+
+    <hr>
+
+    <h2>Trocando elementos</h2>
+    <div id="pai-10">
+        <p id="p-10">Filho 1</p>
+    </div>
+
+
+    <script>
+
+        // ALTERANDO VALORES 
+        let paragrafo = document.getElementById('p');
+        console.log(paragrafo); // Exibindo o elemento 'paragrafo'
+    
+        console.log(paragrafo.nodeValue); // Exibindo o valor do nó (nodeValue) de 'paragrafo'
+        console.log(paragrafo.nodeName); // Exibindo o nome do nó (nodeName) de 'paragrafo'
+    
+        let primeiroFilhoDeP = paragrafo.firstChild;
+        console.log(primeiroFilhoDeP + " " + primeiroFilhoDeP.data); // Exibindo o primeiro filho de 'paragrafo' e seu conteúdo de texto
+    
+        primeiroFilhoDeP.nodeValue = "Primeiro Filho (alterado)";
+        console.log(primeiroFilhoDeP + " " + primeiroFilhoDeP.data); // Exibindo o primeiro filho após alteração de seu valor
+    
+        // ALTERANDO O VALOR DE UM ATRIBUTO
+        paragrafo.setAttribute('class', 'verde');
+        console.log("paragrafo 1: " + paragrafo); // Exibindo 'paragrafo' após alteração da classe
+    
+        console.log("======= EXEMPLO 2 ========");
+    
+        const paragrafo2 = document.getElementById('p-2');
+        console.log(paragrafo2.attributes); // Exibindo todos os atributos de 'paragrafo2' como NamedNodeMap
+        console.log(paragrafo2.attributes[0]); // Exibindo o primeiro atributo de 'paragrafo2' (acesso por índice)
+        console.log(paragrafo2.attributes["class"]); // Exibindo o atributo 'class' de 'paragrafo2' (acesso por nome)
+    
+        // paragrafo2.attributes["class"] -> é um OBJETO JS com propriedade: nodeName, nodeValue ...
+        console.log(paragrafo2.attributes["class"].nodeName); // Exibindo o nome do atributo 'class'
+        console.log(paragrafo2.attributes["class"].nodeValue); // Exibindo o valor do atributo 'class'
+        console.log(paragrafo2.attributes["class"].nodeValue = 'azul'); // Alterando o valor do atributo 'class' para 'azul' e exibindo o novo valor
+    
+        console.log(document.getElementById('demo').innerHTML = paragrafo2.attributes[0].nodeValue); // Atualizando o conteúdo de 'demo' com o valor do primeiro atributo
+    
+        console.log(paragrafo2.getAttributeNode('id').nodeValue = 'p-3'); // Alterando o valor do atributo 'id' de 'paragrafo2' para 'p-3'
+        console.log(document.getElementById('p-3')); // Exibindo o elemento com o novo id 'p-3'
+
+        console.log("=== EXEMPLO 3 REMOVER FILHO ===");
+
+        //QUEM REMOVE É O NO PAI E TODOS OS FILHOS DESSE ELEMENTO SÃO REMOVIDOS EM CASCATA
+
+        // REMOVENDO ELEMENTOS
+        let pai = document.getElementById('pai-4');
+        let divFilha = document.getElementById('div-1');
+        let filho = document.getElementById('p-4');
+
+        pai.removeChild(divFilha);
+
+        //REMOVENDO A SI MESMO/ O PROPRIO ELEMENTO SE AUTODELETA
+        console.log(filho.parentNode);
+        console.log(filho.parentNode.removeChild(filho));
+        //filho.parentNode.removeChild(filho);
+        //elemento.acessa o seu pai.solicita que remova o filho dele(passando a si mesmo);
+
+        //REMOVENDO UM NÓ TEXTO OU LIMPANDO
+        let outrofilho = document.getElementById('p-5');
+        console.log(outrofilho);
+        let texto = outrofilho.firstChild;
+        console.log(texto);
+
+        //outrofilho.removeChild(texto); //irá remover no texto
+        texto.nodeValue = ""; //o nó ainda existe, mas o elemento é deletado.
+
+        //pegando direto com o document
+        document.getElementById('p-5').firstChild.nodeValue = " Inserindo texto novamente no Nó";
+
+
+        //REMOVENDO ATRIBUTO
+        let paragrafo6 = document.getElementById('p-6');
+        paragrafo6.removeAttribute('class'); //opção 1
+
+        //Opção 2:
+       //let atributo = paragrafo6.getAttributeNode('class');
+       //paragrafo6.removeAttributeNode(atributo);
+
+       //CRIAR NOVO ELEMENTOS NO HTML
+       //1° é criado na memória RAM e só depois que a gente add ele na arvore DOM que passa a existir.
+       //Nó elemento =   document.createElement(); //nodeName
+       //Nó texto    =   document.createTextNode(); //nodeValue
+
+       /* No elemento ou texto Não CRIA atributos.
+          Quem cria é Nó DOCUMENT ou xmlDOC (resultado do parse).
+
+          Nó atributo = document.createAttribute();
+
+       */
+
+        let paragrafo7 = document.getElementById('p-7');
+        let atributoClass = document.createAttribute('class');
+        atributoClass.nodeValue = 'azul';
+        paragrafo7.setAttributeNode(atributoClass);
+
+        console.log("=== adicionando nó a árvore de nós ===");
+        //ADICIONANDO NÓ A ÁRVORE DE NÓ
+
+        let divPai = document.getElementById('p-8');
+        let novoParagrafo = document.createElement('p');
+        let novoTexto = document.createTextNode('Novo filho padrão');
+
+        novoParagrafo.appendChild(novoTexto);
+        console.log(novoParagrafo);
+
+        divPai.appendChild(novoParagrafo); //add como último filho
+
+        //ADICIONANDO NOVO NÓ ANTES(before) DO IRMÃO
+        //pai.insertBefore(novoElemento, antigoElemento);
+        let novoParagrafo2 = document.createElement('p');
+        let novoTexto2 = document.createTextNode('Novo Filho. Inserido antes do seu irmão (que era o 1°)');
+
+        let antigoElemento = divPai.firstChild;
+
+        novoParagrafo2.appendChild(novoTexto2);
+
+        divPai.insertBefore(novoParagrafo2, antigoElemento);
+
+        //INSERINDO TEXTO APARTIR DE UMA POSIÇÃO DO ARRAY DE STRING DO NODE TEXT
+        let p9 = document.getElementById('p-9');
+        p9.firstChild.insertData(3, " ");
+
+        //TROCANDO TEXTO DE UM NÓ TEXTO
+        // Offset - Ínicio para começar
+        // length - quantidade de caracteres a serem trocados
+        // string - novo texto a ser inserido
+        //elemento.firstChild.replaceData(Offset,length, string) 
+
+        p9.firstChild.replaceData(0,3, 'Hello');
+
+        //TROCANDO ELEMENTOS POR OUTROS ELEMENTOS
+        //pai.replaceChild(novoFilho, antigoFilho);
+        
+        let pai10 = document.getElementById('pai-10');
+        let paragrafo10 = document.getElementById('p-10');
+        let article = document.createElement('article');
+        let novoTexto3 = document.createTextNode("Conteúdo trocado");
+
+        article.appendChild(novoTexto3);
+
+        pai10.replaceChild(article, paragrafo10);
+
+        //PAREI 43:47
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+    
+</body>
+
+</html>
