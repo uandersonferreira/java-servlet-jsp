@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pratos</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav>
+        <a href="cadastro.html">Cadastro</a> |
+        <a href="cardapio.html">Cardápio</a> |
+        <a href="gerenciar.html">Gerenciar</a>
+    </nav>
+    <h1>Cadastro de Pratos</h1>
+    <form id="form-cadastro">
+        <label>
+            Nome do prato:
+            <input type="text" name="nome" required>
+        </label><br>
+
+        <!-- <label>
+            Ingredientes:
+            <div id="ingredientes-container">
+                <input type="text" name="ingrediente" placeholder="Ingrediente" required>
+            </div>
+            <button type="button" id="add-ingrediente">Adicionar Ingrediente</button>
+        </label> -->
+        <label>
+            Ingredientes:
+            <div id="ingredientes-container">
+                <input type="text" id="ingrediente-input" placeholder="Digite o ingrediente">
+                <button type="button" id="add-ingrediente">Adicionar Ingrediente</button>
+                <ul id="ingredientes-list"></ul>
+            </div>
+        </label>
+
+        <br>
+
+
+        <label>
+            URL da imagem:
+            <input type="url" name="imagem" required>
+        </label><br>
+        <label>
+            Preço:
+            <input type="number" name="preco" step="0.01" required>
+        </label><br>
+        <button type="submit">Salvar Prato</button>
+    </form>
+
+    <script src="js/cadastro.js"></script>
+
+</body>
+
+</html>
