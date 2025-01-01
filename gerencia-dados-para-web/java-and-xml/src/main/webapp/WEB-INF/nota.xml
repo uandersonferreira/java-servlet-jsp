@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<nota carta="sim" id="nota1">
+    <de>Jose</de>
+    <para>Maria</para>
+    <cabecalho>Declaração</cabecalho>
+    <corpo>Hoje lembrei de você</corpo>
+</nota>
