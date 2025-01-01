@@ -1,0 +1,134 @@
+/* Estilo geral */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* Navegação */
+#navegacao {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+#navegacao a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#navegacao a::after{
+    content: '|';
+}
+
+#navegacao a:hover {
+    text-decoration: underline;
+}
+
+/* Estrutura principal */
+main {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem;
+    gap: 1rem;
+}
+
+/* Filtros */
+#filtros {
+    background-color: #fff;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1 1 250px;
+    max-width: 300px;
+}
+
+#filtros h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+#filtros section {
+    margin-bottom: 1rem;
+}
+
+#filtros input[type="button"] {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#filtros input[type="button"]:hover {
+    background-color: #e0e0e0;
+}
+
+#filtros input[type="text"] {
+    width: calc(100% - 1rem);
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Listas */
+#mostrarListas {
+    flex: 3 1 600px;
+}
+
+.listas {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.listas header {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.listas .titulo {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.listas ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.listas li {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.listas li strong {
+    font-weight: bold;
+    color: #333;
+}
+
+.listas li del {
+    color: #888;
+}
