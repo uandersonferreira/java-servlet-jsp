@@ -92,22 +92,28 @@ public class LivrariaXmlProcessor {
     public String getAllBooks() {
         NodeList books = xmlDocument.getElementsByTagName("livro");
         return convertXmlToString(books.item(0).getParentNode());
+        //pega o primeiro livro/filho [0] e através dele pegamos o pai que a <livraria>
+        //passamos para o converterXmlToString que irá mostrar o xml
     }
 
     public String getBooksByCategory(String category) {
-        Element root = xmlDocument.createElement("livraria");
-        NodeList books = xmlDocument.getElementsByTagName("livro");
+        Element root = xmlDocument.createElement("livraria"); //cria um novo elemento livraria
+        NodeList books = xmlDocument.getElementsByTagName("livro"); // pega todos os <livro> do nosso arquivo XML
         boolean found = false;
 
         for (int i = 0; i < books.getLength(); i++) {
-            Element book = (Element) books.item(i);
-            if (book.getAttribute("categoria").equals(category)) {
-                root.appendChild(book.cloneNode(true));
+            Element book = (Element) books.item(i); // pega o livro atual do loop e o transforma em um elemento XML
+            if (book.getAttribute("categoria").equals(category)) { // verifica se o atributo categoria do livro é igual a categoria passada
+                root.appendChild(book.cloneNode(true)); // adiciona o livro ao elemento livraria, o cloneNode(true) clona o livro inteiro
                 found = true;
             }
         }
-
         return found ? convertXmlToString(root) : "Nenhum livro encontrado na categoria: " + category;
+        /*
+        cloneNode(true):
+        true: clona o nó e toda sua subárvore (filhos)
+        false: clona apenas o nó e seus atributos
+         */
     }
 
     public String getBooksByLanguage(String language) {
