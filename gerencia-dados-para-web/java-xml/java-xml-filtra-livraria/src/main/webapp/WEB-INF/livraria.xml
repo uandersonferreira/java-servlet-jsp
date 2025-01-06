@@ -1,0 +1,66 @@
+<livraria>
+    <livro categoria="TI">
+        <titulo language="pt-br">Estruturas de Dados em C</titulo>
+        <autor>Loiane Groner</autor>
+        <ano>2019</ano>
+        <preco>79.90</preco>
+    </livro>
+
+    <livro categoria="fiction">
+        <titulo language="pt-br">O Alquimista</titulo>
+        <autor>Paulo Coelho</autor>
+        <autor>João Duntra</autor>
+        <ano>1988</ano>
+        <preco>45.00</preco>
+    </livro>
+
+    <livro categoria="fiction">
+        <titulo language="pt-br">O Alquimista 2</titulo>
+        <autor>João Duntra</autor>
+        <ano>2055</ano>
+        <preco>45.00</preco>
+    </livro>
+
+    <livro categoria="science">
+        <titulo language="en">A Brief History of Time</titulo>
+        <autor>Stephen Hawking</autor>
+        <ano>1988</ano>
+        <preco>40.00</preco>
+    </livro>
+
+    <livro categoria="history">
+        <titulo language="en">Sapiens: A Brief History of Humankind</titulo>
+        <autor>Yuval Noah Harari</autor>
+        <ano>2011</ano>
+        <preco>50.00</preco>
+    </livro>
+
+    <livro categoria="self-help">
+        <titulo language="pt-br">O Poder do Hábito</titulo>
+        <autor>Charles Duhigg</autor>
+        <ano>2012</ano>
+        <preco>35.90</preco>
+    </livro>
+
+    <livro categoria="fantasy">
+        <titulo language="en">The Hobbit</titulo>
+        <autor>J.R.R. Tolkien</autor>
+        <ano>1937</ano>
+        <preco>60.00</preco>
+    </livro>
+
+    <livro categoria="biography">
+        <titulo language="pt-br">Steve Jobs</titulo>
+        <autor>Walter Isaacson</autor>
+        <ano>2011</ano>
+        <preco>70.90</preco>
+    </livro>
+
+    <livro categoria="cooking" cover="paperback">
+        <titulo language="pt-br">Receitas da Vida</titulo>
+        <autor>Ana Maria Braga</autor>
+        <autor>Dona Benta</autor>
+        <ano>2016</ano>
+        <preco>55.00</preco>
+    </livro>
+</livraria>
