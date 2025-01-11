@@ -1,4 +1,4 @@
-package br.com.uanderson.introducaojdbc;
+package br.com.uanderson.introducaojdbc.core.validation.core;
 
 import java.util.HashMap;
 import java.util.Map;

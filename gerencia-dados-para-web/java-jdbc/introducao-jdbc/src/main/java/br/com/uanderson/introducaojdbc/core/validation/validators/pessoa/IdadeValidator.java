@@ -1,4 +1,7 @@
-package br.com.uanderson.introducaojdbc;
+package br.com.uanderson.introducaojdbc.core.validation.validators.pessoa;
+
+import br.com.uanderson.introducaojdbc.core.validation.core.FieldValidator;
+import br.com.uanderson.introducaojdbc.core.validation.core.ValidationResult;
 
 public class IdadeValidator implements FieldValidator {
     @Override
