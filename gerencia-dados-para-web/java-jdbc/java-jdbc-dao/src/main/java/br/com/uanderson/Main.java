@@ -69,7 +69,7 @@ public class Main {
                 pessoasNaoEncontradas);
 
         System.out.println("\n=== Teste de Remoção de Todos os Registros ===");
-        pessoaDAO.deleteAll();
+        //pessoaDAO.deleteAll();
         System.out.println("Lista após deleteAll:");
         pessoaDAO.listAll().forEach(System.out::println);
 
