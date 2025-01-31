@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -51,6 +52,7 @@ public class LivrariaXmlProcessor {
 
             // Faz o parsing do XML e armazena o resultado no atributo xmlDocument.
             xmlDocument = documentBuilder.parse(xmlFilePath);
+
         } catch (ParserConfigurationException | SAXException | IOException ex) {
             // Loga o erro com detalhes no caso de falha ao carregar o XML.
             LOGGER.log(Level.SEVERE, "Falha ao carregar o documento XML.", ex);
@@ -65,11 +67,19 @@ public class LivrariaXmlProcessor {
     private String convertXmlToString(Node xmlDocumentNode) {
         // Usando try-with-resources para garantir que os recursos sejam fechados automaticamente.
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
             // Cria uma fábrica de transformadores para conversão do DOM para texto.
             TransformerFactory transformerFactory = TransformerFactory.newDefaultInstance();
 
             // Cria o transformador para processar o documento XML.
             Transformer transformer = transformerFactory.newTransformer();
+
+            // Adiciona as propriedades de formatação
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4"); // Define indentação
 
             // Define o documento DOM como a fonte de dados.
             DOMSource domSource = new DOMSource(xmlDocumentNode);
@@ -154,6 +164,7 @@ public class LivrariaXmlProcessor {
             if (titleText != null) {
                 if (title.getTextContent().toLowerCase().contains(titleText.toLowerCase())) {
                     root.appendChild(title.getParentNode().cloneNode(true));
+                    LOGGER.info("Parent Node title: " + title.getParentNode().getNodeName() + " - " + title.getParentNode().getTextContent());
                     found = true;
                 }
             }// check if titleText is null
@@ -250,7 +261,7 @@ public class LivrariaXmlProcessor {
         System.out.println("====================getBooksByAuthor===============================\n");
         System.out.println(processor.getBooksByAuthor("J.K. Rowling"));
         System.out.println("====================getBooksByTitle===============================\n");
-        System.out.println(processor.getBooksByTitle("The Lord of the Rings"));
+        System.out.println(processor.getBooksByTitle("A Brief History of Time"));
         System.out.println("====================getBooksByYear===============================\n");
         System.out.println(processor.getBooksByYear(2005));
         System.out.println("====================getBooksByPrice===============================\n");

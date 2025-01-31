@@ -142,6 +142,7 @@ public class LivrariaXmlProcessor2 {
     }
 
     public static void main(String[] args) {
+
         LivrariaXmlProcessor2 processor = new LivrariaXmlProcessor2("src/main/webapp/WEB-INF/livraria.xml");
 
         // Testes dos métodos refatorados

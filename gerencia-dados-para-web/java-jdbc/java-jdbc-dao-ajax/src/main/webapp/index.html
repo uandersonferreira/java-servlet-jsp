@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciamento de Pessoas</title>
+    <style>
+        .tabela-pessoas {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .tabela-pessoas th, .tabela-pessoas td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .tabela-pessoas th {
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            margin: 20px 0;
+        }
+        .form-container input {
+            margin: 5px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerenciamento de Pessoas</h1>
+
+    <div class="form-container">
+        <h2>Cadastrar Nova Pessoa</h2>
+        <form id="formPessoa">
+            <input type="text" id="nome" placeholder="Nome" required>
+            <input type="number" id="idade" placeholder="Idade" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Lista de Pessoas</h2>
+        <table class="tabela-pessoas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaPessoas">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="js/pessoas.js"></script>
+</body>
+</html>

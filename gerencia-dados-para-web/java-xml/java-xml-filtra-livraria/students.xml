@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class>
+    <student>
+        <id>101</id>
+        <firstname>João</firstname>
+        <lastname>Silva</lastname>
+        <subject>Matemática</subject>
+        <marks>95</marks>
+    </student>
+
+    <student>
+        <id>102</id>
+        <firstname>Maria</firstname>
+        <lastname>Santos</lastname>
+        <subject>Português</subject>
+        <marks>88</marks>
+    </student>
+
+    <student>
+        <id>103</id>
+        <firstname>Pedro</firstname>
+        <lastname>Oliveira</lastname>
+        <subject>História</subject>
+        <marks>78</marks>
+    </student>
+
+    <student>
+        <id>104</id>
+        <firstname>Ana</firstname>
+        <lastname>Pereira</lastname>
+        <subject>Geografia</subject>
+        <marks>92</marks>
+    </student>
+
+    <student>
+        <id>105</id>
+        <firstname>Lucas</firstname>
+        <lastname>Costa</lastname>
+        <subject>Física</subject>
+        <marks>85</marks>
+    </student>
+
+    <student>
+        <id>106</id>
+        <firstname>Julia</firstname>
+        <lastname>Martins</lastname>
+        <subject>Química</subject>
+        <marks>90</marks>
+    </student>
+</class>

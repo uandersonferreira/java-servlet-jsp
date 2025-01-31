@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pessoas>
+    <pessoa>
+        <id>1</id>
+        <nome>Maria Silva</nome>
+        <idade>28</idade>
+    </pessoa>
+
+    <pessoa>
+        <id>2</id>
+        <nome>João Santos</nome>
+        <idade>35</idade>
+    </pessoa>
+
+    <pessoa>
+        <id>3</id>
+        <nome>Ana Oliveira</nome>
+        <idade>42</idade>
+    </pessoa>
+
+    <pessoa>
+        <id>4</id>
+        <nome>Pedro Costa</nome>
+        <idade>19</idade>
+    </pessoa>
+
+    <pessoa>
+        <id>5</id>
+        <nome>Carla Rodrigues</nome>
+        <idade>31</idade>
+    </pessoa>
+
+    <pessoa>
+        <id>6</id>
+        <nome>Lucas Ferreira</nome>
+        <idade>25</idade>
+    </pessoa>
+
+    <pessoa>
+        <id>7</id>
+        <nome>Beatriz Lima</nome>
+        <idade>29</idade>
+    </pessoa>
+
+    <pessoa>
+        <id>8</id>
+        <nome>Rafael Almeida</nome>
+        <idade>38</idade>
+    </pessoa>
+
+    <pessoa>
+        <id>9</id>
+        <nome>Juliana Pereira</nome>
+        <idade>33</idade>
+    </pessoa>
+
+    <pessoa>
+        <id>10</id>
+        <nome>Marcelo Santos</nome>
+        <idade>45</idade>
+    </pessoa>
+</pessoas>
