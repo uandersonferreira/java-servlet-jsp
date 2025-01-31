@@ -30,6 +30,16 @@
             <item feito='nao' prioridade='sim'> Recolher roupa do varal</item>
         </itens>
     </lista> 
+
+        <lista id='10'>
+        <titulo> Atividades Domesticas 2 </titulo>
+        <itens>
+            <item feito='sim' prioridade='nao'> Trocar lâmpada do jardim</item>
+            <item feito='nao' prioridade='sim'> Trocar telha quebrada</item>
+            <item feito='nao' prioridade='nao'> Lavar roupa</item>
+            <item feito='nao' prioridade='sim'> Recolher roupa do varal</item>
+        </itens>
+    </lista> 
 </listas>
 
 

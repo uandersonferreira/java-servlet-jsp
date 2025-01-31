@@ -2,6 +2,7 @@ package br.com.uanderson.servlets.ajax;
 
 import br.com.uanderson.dao.PessoaDaoAjax;
 import br.com.uanderson.dao.impl.PessoaDaoAjaxImpl;
+import br.com.uanderson.dao.impl.PessoaDaoXmlImpl;
 import br.com.uanderson.model.ApiResponse;
 import br.com.uanderson.model.Pessoa;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +24,7 @@ public class BuscarPessoaServlet extends HttpServlet {
     private final ObjectMapper objectMapper;
 
     public BuscarPessoaServlet() {
-        this.pessoaDao = new PessoaDaoAjaxImpl();
+        this.pessoaDao = new PessoaDaoXmlImpl();
         this.objectMapper = new ObjectMapper();
     }
 

@@ -19,3 +19,5 @@ services:
 
 volumes:
   jdbc-data-produtos: # Volume nomeado para persistência de dados do PostgreSQL
+
+#  docker exec -it produtos_aula psql -U admin -d db_produtos

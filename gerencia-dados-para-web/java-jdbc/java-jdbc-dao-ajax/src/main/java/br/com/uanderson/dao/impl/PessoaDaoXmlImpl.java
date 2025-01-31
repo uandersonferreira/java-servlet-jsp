@@ -11,6 +11,7 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -22,60 +23,77 @@ import java.util.List;
 
 @Log4j2
 public class PessoaDaoXmlImpl implements PessoaDaoAjax {
-    private final String XML_FILE = "src/main/resources/pessoas.xml";
+    private String xmlFilePath;
     private Document document;
 
     public PessoaDaoXmlImpl() {
         try {
-            File file = new File(XML_FILE);
+            // Obtém o caminho real do diretório WEB-INF
+            String webInfPath = getClass().getClassLoader().getResource("").getPath();
+            xmlFilePath = webInfPath + "pessoas.xml";
+
+            File file = new File(xmlFilePath);
             if (!file.exists()) {
                 createXmlFile();
             }
+
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(file);
+
+            log.info("Arquivo XML inicializado em: {}", xmlFilePath);
         } catch (Exception e) {
             log.error("Erro ao inicializar XML: {}", e.getMessage());
+            e.printStackTrace();
         }
     }
 
     private void createXmlFile() throws ParserConfigurationException, TransformerException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        document = builder.newDocument();
-        Element rootElement = document.createElement("pessoas");
-        document.appendChild(rootElement);
-        saveXmlFile();
+        try {
+            // Criar diretório se não existir
+            File directory = new File(xmlFilePath).getParentFile();
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            // Criar documento XML
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            document = builder.newDocument();
+            Element rootElement = document.createElement("pessoas");
+            document.appendChild(rootElement);
+
+            // Salvar arquivo
+            saveXmlFile();
+
+            log.info("Novo arquivo XML criado em: {}", xmlFilePath);
+        } catch (Exception e) {
+            log.error("Erro ao criar arquivo XML: {}", e.getMessage());
+            throw e;
+        }
     }
 
     private void saveXmlFile() throws TransformerException {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        DOMSource source = new DOMSource(document);
-        StreamResult result = new StreamResult(new File(XML_FILE));
-        transformer.transform(source, result);
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(new File(xmlFilePath));
+            transformer.transform(source, result);
+
+            log.info("Arquivo XML salvo com sucesso");
+        } catch (Exception e) {
+            log.error("Erro ao salvar arquivo XML: {}", e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public void save(Pessoa pessoa) {
-        try {
-            Element pessoaElement = document.createElement("pessoa");
 
-            Element nomeElement = document.createElement("nome");
-            nomeElement.setTextContent(pessoa.getNome());
-            pessoaElement.appendChild(nomeElement);
-
-            Element idadeElement = document.createElement("idade");
-            idadeElement.setTextContent(String.valueOf(pessoa.getIdade()));
-            pessoaElement.appendChild(idadeElement);
-
-            document.getDocumentElement().appendChild(pessoaElement);
-            saveXmlFile();
-
-            log.info("Pessoa '{}' salva no XML", pessoa.getNome());
-        } catch (Exception e) {
-            log.error("Erro ao salvar pessoa no XML: {}", e.getMessage());
-        }
     }
 
     @Override

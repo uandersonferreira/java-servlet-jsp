@@ -115,6 +115,15 @@
     <h2>Tag c:redirect</h2>
 <%--    <c:redirect url = "outraPagina.jsp"/>--%>
     <hr>
+	
+	<c:choose>
+		<c:when test = "${sessionScope.usuario != null}">
+			<jsp:include page="form-relatorio.jsp" />
+		</c:when>
+		<c:otherwise>
+			<jsp:include page="form-cadastro.jsp" />
+		</c:otherwise>
+	</c:choose>
     
     
     

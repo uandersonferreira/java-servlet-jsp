@@ -22,7 +22,7 @@ public class PessoaServlet extends HttpServlet {
     private final ObjectMapper objectMapper;
 
     public PessoaServlet() {
-        this.pessoaDao = new PessoaDaoJsonImpl();
+        this.pessoaDao = new PessoaDaoXmlImpl();
         this.objectMapper = new ObjectMapper();
     }
 
