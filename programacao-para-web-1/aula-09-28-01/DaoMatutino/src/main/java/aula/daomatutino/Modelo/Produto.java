@@ -4,7 +4,8 @@ import java.util.Objects;
 
 public class Produto {
     private int id;
-    private String nome,descricao;
+    private String nome;
+    private String descricao;
     private float preco;
 
     public Produto(){}

@@ -1,0 +1,50 @@
+<listas>
+    <lista id='1'>
+        <titulo> Compras Casa </titulo>
+        <itens>
+            <item feito='nao' prioridade='nao'> Sabão em pó</item>
+            <item feito='nao'> Leite</item>
+            <item prioridade='sim'> Café</item>
+            <item feito='nao' prioridade='nao'> Bolacha</item>
+        </itens>
+    </lista>
+
+     <lista id='4'>
+        <titulo> Compras Escritório </titulo>
+        <itens>
+            <item feito='nao' prioridade='nao'> Grampo</item>
+            <item feito='nao'> Marca texto</item>
+            <item feito='nao' prioridade='sim'> Papel</item>
+            <item> Bobina para impressora</item>
+            <item prioridade='sim'> Caneta Azul </item>
+            <item>Lápis</item>
+        </itens>
+    </lista>
+
+    <lista id='10'>
+        <titulo> Atividades Domesticas </titulo>
+        <itens>
+            <item feito='sim' prioridade='nao'> Trocar lâmpada do jardim</item>
+            <item feito='nao' prioridade='sim'> Trocar telha quebrada</item>
+            <item feito='nao' prioridade='nao'> Lavar roupa</item>
+            <item feito='nao' prioridade='sim'> Recolher roupa do varal</item>
+        </itens>
+    </lista> 
+
+        <lista id='10'>
+        <titulo> Atividades Domesticas 2 </titulo>
+        <itens>
+            <item feito='sim' prioridade='nao'> Trocar lâmpada do jardim</item>
+            <item feito='nao' prioridade='sim'> Trocar telha quebrada</item>
+            <item feito='nao' prioridade='nao'> Lavar roupa</item>
+            <item feito='nao' prioridade='sim'> Recolher roupa do varal</item>
+        </itens>
+    </lista> 
+</listas>
+
+
+<!-- 
+    QUANDO NÃO TIVER AS PROPRIEDADES (feito ou prioridade) SIGNIFICA 'NÃO'
+ -->
+
+ 

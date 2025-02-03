@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "DeletarProduto", value = "/deletar")
-public class DeletarProduto extends HttpServlet {
+@WebServlet(name = "DeletarProdutoServlet", value = "/deletar")
+public class DeletarProdutoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
@@ -21,29 +21,29 @@ public class DeletarProduto extends HttpServlet {
 
         String textId = request.getParameter("id");
 
-        if (textId == null && textId.isEmpty()) {
-            response.sendRedirect("produto?mensagem=Erro ao tentar deletar");
+        if (textId == null || textId.isEmpty()) {
+            response.sendRedirect("produtos?mensagem=ID+inválido+para+exclusão");
             return;
         }
-        int id = 0;
+
         try {
-            id = Integer.parseInt(textId);
+            int id = Integer.parseInt(textId);
             ProdutoDaoInterface dao = new ProdutoDaoClasse();
             Produto produtoSalvo = dao.buscar(id);
+
             if (produtoSalvo == null) {
-                response.sendRedirect("produto?mensagem=Produto não encontrado com ID [" + id + "]");
+                response.sendRedirect("produtos?mensagem=Produto+não+encontrado+ID+" + id);
                 return;
             }
+
             dao.deletar(id);
             dao.sair();
-            response.sendRedirect("produto?mensagem=Produto deletado com sucesso.");
-        } catch (ErroDao e) {
-            System.out.println("erroDAO: " + e);
-            request.setAttribute("mensagem", "Erro ao tentar excluir o produto");
-            request.getRequestDispatcher("WEB-INF/produto.jsp").forward(request, response);
+            response.sendRedirect("produtos?mensagem=Produto+excluído+com+sucesso");
+
         } catch (NumberFormatException e) {
-            response.sendRedirect("produto?mensagem= [ERRO] ID {" + id + "} Inválido!");
+            response.sendRedirect("produtos?mensagem=ID+inválido+" + textId);
+        } catch (ErroDao e) {
+            response.sendRedirect("produtos?mensagem=Erro+no+banco+de+dados");
         }
     }
-
 }

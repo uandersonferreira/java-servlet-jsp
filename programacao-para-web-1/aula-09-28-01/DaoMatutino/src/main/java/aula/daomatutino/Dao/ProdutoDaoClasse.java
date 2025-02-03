@@ -115,7 +115,18 @@ public class ProdutoDaoClasse implements ProdutoDaoInterface {
 
     @Override
     public void editar(Produto p) throws ErroDao {
+        try (PreparedStatement pstm = con.prepareStatement(
+                "UPDATE produto SET nome=?, descricao=?, preco=? WHERE id=?")) {
 
+            pstm.setString(1, p.getNome());
+            pstm.setString(2, p.getDescricao());
+            pstm.setFloat(3, p.getPreco());
+            pstm.setInt(4, p.getId());
+            pstm.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new ErroDao(e);
+        }
     }
 
     @Override
