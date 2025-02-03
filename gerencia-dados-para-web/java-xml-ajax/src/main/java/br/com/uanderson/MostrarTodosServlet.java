@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "ListaServlet", value = "/MostrarTodosServlet")
+@WebServlet(name = "MostrarTodosServlet", value = "/MostrarTodosServlet")
 public class MostrarTodosServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

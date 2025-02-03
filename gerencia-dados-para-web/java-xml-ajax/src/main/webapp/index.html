@@ -1,40 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang = "pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
     <title>Gerenciamento de Tarefas</title>
-    <link rel="stylesheet" href="assets/css/listas.css">
+    <link rel = "stylesheet" href = "assets/css/listas.css">
 </head>
 <body>
+    <nav id = "menu"> </nav>
 
-    <nav id="navegacao">
-    </nav>
+    <article id = "listaTarefas"> </article>
 
-    <main>
-        <aside id="filtros">
-            <section>
-                <h2>Filtros</h2>
-                <input type="button" id="btnFeito" value="Feito">
-                <input type="button" id="btnNaoFeito" value="Não Feito">
-            </section>
-            <section>
-                <input type="button" id="btnPrioridade" value="Prioridade">
-                <input type="button" id="btnSemPrioridade" value="Sem Prioridade">
-            </section>
-            <section>
-                <input type="text" id="inputTitulo" placeholder="Informe o título">
-                <input type="button" id="btnTitulo" value="Título">
-            </section>
-        </aside>
+    <script src = "assets/js/carregar-menu.js"></script>
 
-        <section id="mostrarListas">
-        
-        </section>
-    </main>
-
-    <script src="assets/js/listas.js"></script>
-    
 </body>
 </html>
 
