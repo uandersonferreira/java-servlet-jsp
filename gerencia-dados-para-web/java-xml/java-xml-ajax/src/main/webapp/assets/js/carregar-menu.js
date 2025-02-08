@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const ENDPOINTS = {
+        MENU: 'http://localhost:8080/MenuServlet',
+        LISTA_BY_ID: 'http://localhost:8080/ListaServlet',
+        CRIAR_LISTA: 'http://localhost:8080/CriarListaServlet',
+        ADICIONAR_ITEM: 'http://localhost:8080/AdicionarItemServlet',
+        EDITAR_ITEM: 'http://localhost:8080/EditarItemServlet',
+        REMOVER_ITEM: 'http://localhost:8080/RemoverItemServlet'
+    };
 
-    const ENDPOINT_MENU = 'http://localhost:8080/MenuServlet';
-    const ENDPOINT_FIND_BY_ID = 'http://localhost:8080/ListaServlet?id=';
 
     // Função para carregar dados via AJAX
     function carregarAjax(url, callback) {
@@ -17,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para carregar o menu
     function carregarMenu() {
-        carregarAjax(ENDPOINT_MENU, (xmlDoc) => {
+        carregarAjax(ENDPOINTS.MENU, (xmlDoc) => {
             const menu = document.getElementById('menu');
             const titles = xmlDoc.getElementsByTagName('titulo');
 
@@ -25,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let title of titles) {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
-                a.href = ENDPOINT_FIND_BY_ID + title.getAttribute('id');
+                a.href = ENDPOINTS.LISTA_BY_ID + title.getAttribute('id');
                 a.textContent = title.textContent;
                 a.addEventListener('click', carregarListaTarefas);
                 li.appendChild(a);
@@ -93,3 +99,46 @@ document.addEventListener('DOMContentLoaded', () => {
     // Carregar menu inicial
     carregarMenu();
 });
+
+
+// Função para criar nova lista
+document.getElementById('formNovaLista').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const listId = this.elements.listId.value;
+    const title = this.elements.title.value;
+    const url = `${ENDPOINTS.CRIAR_LISTA}?listId=${encodeURIComponent(listId)}&title=${encodeURIComponent(title)}`;
+
+    // Enviar requisição AJAX
+    carregarAjax(url, (xmlDoc) => {
+        // Recarregar o menu após criar a lista
+        const menu = document.getElementById('menu');
+        menu.innerHTML = ''; // Limpar menu existente
+        carregarMenu();
+
+        // Limpar formulário
+        this.reset();
+    });
+});
+
+// Modificação necessária na função carregarMenu para evitar duplicação
+function carregarMenu() {
+    carregarAjax(ENDPOINTS.MENU, (xmlDoc) => {
+        const menu = document.getElementById('menu');
+        menu.innerHTML = ''; // Limpa o conteúdo anterior do menu
+
+        const titles = xmlDoc.getElementsByTagName('titulo');
+        const ul = document.createElement('ul');
+
+        for (let title of titles) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = ENDPOINTS.LISTA_BY_ID + title.getAttribute('id');
+            a.textContent = title.textContent;
+            a.addEventListener('click', carregarListaTarefas);
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+        menu.appendChild(ul);
+    });
+}

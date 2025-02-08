@@ -31,20 +31,14 @@
         </itens>
     </lista> 
 
-        <lista id='10'>
-        <titulo> Atividades Domesticas 2 </titulo>
+        <lista id='11'>
+        <titulo> Atividades Trabalho 2 </titulo>
         <itens>
-            <item feito='sim' prioridade='nao'> Trocar lâmpada do jardim</item>
-            <item feito='nao' prioridade='sim'> Trocar telha quebrada</item>
-            <item feito='nao' prioridade='nao'> Lavar roupa</item>
-            <item feito='nao' prioridade='sim'> Recolher roupa do varal</item>
+            <item feito='sim' prioridade='nao'> Trocar Tonner</item>
+            <item feito='nao' prioridade='sim'> Trocar Pinpad</item>
         </itens>
     </lista> 
 </listas>
 
-
-<!-- 
-    QUANDO NÃO TIVER AS PROPRIEDADES (feito ou prioridade) SIGNIFICA 'NÃO'
- -->
 
  

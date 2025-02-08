@@ -130,7 +130,7 @@ public class XMLManipulationExamples {
 
     public static void main(String[] args) {
         // Exemplo de uso
-        String filePath = "pessoas.xml";
+        String filePath = "pessoas2.xml";
 
         // Criar XML
         criarXML(filePath);
