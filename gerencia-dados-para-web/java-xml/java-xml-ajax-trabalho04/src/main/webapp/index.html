@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang = "pt-BR">
+<head>
+    <meta charset = "UTF-8">
+    <title>Sistema de Alunos</title>
+    <link rel = "stylesheet" href = "style.css">
+</head>
+<body>
+    <h1>Sistema de Alunos</h1>
+
+    <h2>Cadastrar Aluno</h2>
+    <form onsubmit = "event.preventDefault(); cadastrarAluno();">
+        <label for = "cadastroNome">Nome:</label>
+        <input type = "text" id = "cadastroNome" name = "nome" required>
+        <br>
+        <label for = "cadastroIdade">Idade:</label>
+        <input type = "number" id = "cadastroIdade" name = "idade" required>
+        <br>
+        <button type = "submit">Cadastrar</button>
+    </form>
+    <div id = "resultadoCadastro"></div>
+
+    <hr>
+
+    <h2>Buscar Aluno</h2>
+    <form onsubmit = "event.preventDefault(); buscarAluno();">
+        <label for = "buscarNome">Nome:</label>
+        <input type = "text" id = "buscarNome" name = "nome" required>
+        <br>
+        <button type = "submit">Buscar</button>
+    </form>
+    <div id = "resultadoBusca"></div>
+
+    <hr>
+
+    <h2>Adicionar Nota</h2>
+    <form onsubmit = "event.preventDefault(); adicionarNota();">
+        <label for = "notaNome">Nome do Aluno:</label>
+        <input type = "text" id = "notaNome" name = "nome" required>
+        <br>
+        <label for = "notaValor">Nota:</label>
+        <input type = "number" step = "0.1" id = "notaValor" name = "nota" required>
+        <br>
+        <button type = "submit">Adicionar Nota</button>
+    </form>
+    <div id = "resultadoNota"></div>
+
+    <hr>
+
+    <h2>Deletar Aluno</h2>
+    <form onsubmit = "event.preventDefault(); deletarAluno();">
+        <label for = "deletarNome">Nome:</label>
+        <input type = "text" id = "deletarNome" name = "nome" required>
+        <br>
+        <button type = "submit">Deletar</button>
+    </form>
+    <div id = "resultadoDelecao"></div>
+
+    <script src = "v2-script.js"></script>
+</body>
+</html>
