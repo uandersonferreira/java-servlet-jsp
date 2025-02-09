@@ -99,17 +99,32 @@ antes de enviá-lo.
 Vamos inserir uma pessoa no banco de dados:
 
 ```java
-String sql = "INSERT INTO pessoa (nome, idade) VALUES (?, ?)";
-PreparedStatement stmt = conexao.prepareStatement(sql);
-stmt.
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-setString(1,"João Silva");  // Preenche o primeiro parâmetro (nome)
-stmt.
+public class InserirDados {
+    private static final String URL = "jdbc:postgresql://localhost:5432/db_jdbc_example";
+    private static final String USUARIO = "test";
+    private static final String SENHA = "test123";
 
-setInt(2,25);               // Preenche o segundo parâmetro (idade)
-stmt.
+    public static void main(String[] args) {
+        String sql = "INSERT INTO pessoa (nome, idade) VALUES (?, ?)";
 
-executeUpdate();
+        try (Connection conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            stmt.setString(1, "João Silva");
+            stmt.setInt(2, 25);
+            stmt.executeUpdate();
+
+            System.out.println("Dados inseridos com sucesso!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
 ```
 
 - **`?`**: Um marcador de posição que será substituído pelos valores reais.
