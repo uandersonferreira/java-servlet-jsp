@@ -40,25 +40,24 @@ public class ProdutoDaoClasse implements ProdutoDaoInterface {
     @Override
     public Produto buscar(int id) throws ErroDao {
         PreparedStatement pstm;
-        Produto p = new Produto();
         try {
             pstm = con.prepareStatement("select * from produto where id = ?");
             pstm.setInt(1, id);
             ResultSet rs = pstm.executeQuery();
 
             if (rs.next()) {
+                Produto p = new Produto();
                 p.setId(rs.getInt("id"));
                 p.setNome(rs.getString("nome"));
                 p.setDescricao(rs.getString("descricao"));
                 p.setPreco(rs.getFloat("preco"));
                 return p;
             }
-
             pstm.close();
         } catch (SQLException e) {
             throw new ErroDao(e);
         }
-        return p;
+        return null;
     }
 
     @Override

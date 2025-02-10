@@ -16,12 +16,15 @@ import java.io.IOException;
 public class InserirProdutoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         request.getRequestDispatcher("/WEB-INF/formulario.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+
         String nome = request.getParameter("nome");
         String descricao = request.getParameter("descricao");
         String tpreco = request.getParameter("preco");
