@@ -28,6 +28,6 @@ public class ReadServlet extends HttpServlet {
             request.setAttribute("pessoas", pessoas);
         }
 
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("index-2.jsp").forward(request, response);
     }
 }

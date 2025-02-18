@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  ### PostgreSQL database for Project de Noticias
+  db-site-noticias:
+    container_name: container-site-noticias
+    image: postgres:latest # Usando a imagem oficial do PostgreSQL
+    environment:
+      POSTGRES_DB: db_site_noticias # Nome do banco de dados
+      POSTGRES_USER: admin # Usuário do banco
+      POSTGRES_PASSWORD: admin@2025 # Senha do banco
+    ports:
+      - "5432:5432" # Mapeamento de porta do host para o container
+    expose:
+      - 5432 # Expondo a porta para outros serviços dentro do Docker Compose
+    command: -p 5432 # Configurando a porta padrão do PostgreSQL
+    volumes:
+      - site-noticias-data:/var/lib/postgresql/data # Volume para persistência dos dados
+
+volumes:
+  site-noticias-data: # Volume nomeado para persistência de dados do PostgreSQL
