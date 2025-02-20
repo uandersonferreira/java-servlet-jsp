@@ -1,10 +1,13 @@
 package br.com.uanderson.repository.connection;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+@Component
 public class ConnectionFactory {
     // Constantes de configuração do banco de dados
     private static final String DATABASE_URL = "jdbc:postgresql://localhost:5432/db_site_noticias";

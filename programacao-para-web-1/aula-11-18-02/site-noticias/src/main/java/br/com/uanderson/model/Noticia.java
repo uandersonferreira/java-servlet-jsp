@@ -22,6 +22,7 @@ public class Noticia implements Serializable {
         this.reporter = reporter;
     }
 
+
     public Long getId() {
         return id;
     }

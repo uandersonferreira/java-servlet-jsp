@@ -7,11 +7,20 @@ public class Reporter implements Serializable {
     private String nome;
     private String login;
     private String senha;
+    private boolean ativo;  // campo para controle de deleção lógica
 
     public Reporter(String nome, String login, String senha) {
         this.nome = nome;
         this.login = login;
         this.senha = senha;
+    }
+
+    public Reporter(Long id, String nome, String login, String senha, boolean ativo) {
+        this.id = id;
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
+        this.ativo = ativo;
     }
 
     public Reporter() {
@@ -23,6 +32,14 @@ public class Reporter implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
     public String getNome() {
