@@ -185,10 +185,3 @@ public class ReporterController {
         return session.getAttribute("reporterLogado") != null;
     }
 }
-
-/*
-WEB-INF/views/reporters/registroView.jsp - Formulário de registro - OK
-WEB-INF/views/reporters/loginView.jsp - Formulário de login - OK
-WEB-INF/views/reporters/perfilView.jsp - Página de visualização/edição de perfil
-WEB-INF/views/reporters/listarView.jsp - Lista de repórteres (apenas para admin)
- */
