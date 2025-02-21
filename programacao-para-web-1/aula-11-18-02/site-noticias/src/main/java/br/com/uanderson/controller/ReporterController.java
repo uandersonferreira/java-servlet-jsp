@@ -29,8 +29,8 @@ public class ReporterController {
         return "reporters/registroView"; // página jsp para registro de repórter
     }
 
-    @PostMapping("/registro")
-    public String cadastrarReporter(@ModelAttribute Reporter reporter, RedirectAttributes redirectAttributes) {
+    @PostMapping("/novo/registro")
+    public String cadastrarReporter(@ModelAttribute Reporter reporter, HttpSession session, RedirectAttributes redirectAttributes) {
 
         if (reporter.getNome() == null || reporter.getNome().trim().isEmpty() ||
                 reporter.getLogin() == null || reporter.getLogin().trim().isEmpty() ||
@@ -50,7 +50,7 @@ public class ReporterController {
         reporterDao.save(reporter);
         log.info(String.format("Repórter '%s' cadastrado com sucesso", reporter.getNome()));
         redirectAttributes.addFlashAttribute("success", "Cadastro realizado com sucesso!");
-        return "redirect:/reporters/login"; //endpoint de login
+        return "redirect:/"; //endpoint de login
     }
 
     @GetMapping("/login")
@@ -81,7 +81,7 @@ public class ReporterController {
             session.setAttribute("reporterLogado", reporter);
             redirectAttributes.addFlashAttribute("success", "Login realizado com sucesso!");
             log.info(String.format("Repórter '%s' logado com sucesso", reporter.getNome()));
-            return "redirect:/reporters/admin/listar";
+            return "redirect:/";
         } else {
             redirectAttributes.addFlashAttribute("error", "Login ou senha incorretos");
             return "redirect:/reporters/login";
@@ -94,8 +94,9 @@ public class ReporterController {
             authenticationService.logout(session);
             redirectAttributes.addFlashAttribute("success", "Logout realizado com sucesso!");
         }
-        return "redirect:/reporters/login";
+        return "redirect:/";
     }
+
     @GetMapping("/admin/perfil/{id}")
     public ModelAndView verPerfil(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
         Reporter reporterSalvo = reporterDao.findById(id);

@@ -66,22 +66,24 @@
     </style>
 </head>
 <body>
-    <div class="alerts-container">
-        <c:if test="${not empty error}">
-            <div class="error-message">${error}</div>
-        </c:if>
+    <div class = "alerts-container">
+	        <c:if test = "${not empty success}">
+	            <div class = "alert alert-success">${success}</div>
+	        </c:if>
+	        <c:if test = "${not empty error}">
+	            <div class = "alert alert-error">${error}</div>
+	        </c:if>
     </div>
 
     <div class="form-container">
         <h1>${noticia != null ? 'Editar' : 'Nova'} Notícia</h1>
         
-        <form action="${pageContext.request.contextPath}/noticias/${noticia != null ? noticia.id.concat('/editar') : 'nova'}"
+        <form action="${noticia.id != null ? pageContext.request.contextPath.concat('/noticias/admin/editar/').concat(noticia.id) : pageContext.request.contextPath.concat('/noticias/admin/nova')}"
 	        method="POST">
             
             <div class="form-grupo">
                 <label for="titulo">Título</label>
-                <input type="text" id="titulo" name="titulo" required
-	                value="${noticia != null ? noticia.titulo : ''}">
+                <input type="text" id="titulo" name="titulo" required value="${noticia != null ? noticia.titulo : ''}">
             </div>
 
             <div class="form-grupo">
@@ -100,5 +102,7 @@
             </div>
         </form>
     </div>
+    	<script src = "${pageContext.request.contextPath}/js/alert-msg.js"></script>
+
 </body>
 </html>

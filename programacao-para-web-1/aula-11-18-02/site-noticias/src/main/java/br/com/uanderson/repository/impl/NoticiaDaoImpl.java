@@ -24,24 +24,37 @@ public class NoticiaDaoImpl implements NoticiaDao {
     }
 
     @Override
-    public boolean save(Noticia noticia) {
+    public Noticia save(Noticia noticia) {
         String sql = "INSERT INTO noticia (titulo, lide, corpoNoticia, dataPublicacao, reporter_id) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conexao = connectionFactory.getConnection();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+             PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, noticia.getTitulo());
             stmt.setString(2, noticia.getLide());
             stmt.setString(3, noticia.getCorpoNoticia());
             stmt.setTimestamp(4, Timestamp.valueOf(noticia.getDataPublicacao()));
             stmt.setLong(5, noticia.getReporter().getId());
-            stmt.executeUpdate();
+
+            int affectedRows = stmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        noticia.setId(generatedKeys.getLong(1));
+                        log.info(String.format("Notícia '%s' inserida com sucesso. ID: %d",
+                                noticia.getTitulo(), noticia.getId()));
+                        return noticia;
+                    }
+                }
+            }
+
             log.info(String.format("Inserindo notícia '%s' no banco de dados", noticia.getTitulo()));
-            return true;
         } catch (SQLException e) {
-            log.info(String.format("Erro ao inserir notícia '%s' no banco de dados: %s", noticia.getTitulo(), e.getMessage()));
+            log.info(String.format("Erro ao inserir notícia '%s' no banco de dados: %s",
+                    noticia.getTitulo(), e.getMessage()));
         }
-        return false;
+        return null;
     }
 
     @Override
@@ -99,25 +112,6 @@ public class NoticiaDaoImpl implements NoticiaDao {
     }
 
     @Override
-    public void deleteAll() {
-        String sql = "DELETE FROM noticia";
-
-        try (Connection conexao = connectionFactory.getConnection();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
-
-            int rowsAffected = stmt.executeUpdate();
-
-            if (rowsAffected > 0) {
-                log.info(String.format("Todas as notícias foram removidas do banco de dados. Total de registros removidos: %d", rowsAffected));
-            } else {
-                log.info("Nenhum registro encontrado para remover");
-            }
-        } catch (SQLException e) {
-            log.info(String.format("Erro ao remover todas as notícias do banco de dados: %s", e.getMessage()));
-        }
-    }
-
-    @Override
     public List<Noticia> listAll() {
         String sql = "SELECT * FROM noticia";
         List<Noticia> noticias = new ArrayList<>();
@@ -148,11 +142,6 @@ public class NoticiaDaoImpl implements NoticiaDao {
         }
 
         return noticias;
-    }
-
-    @Override
-    public List<Noticia> buscarNoticiasPorTitulo(String titulo) {
-        return null;
     }
 
     @Override

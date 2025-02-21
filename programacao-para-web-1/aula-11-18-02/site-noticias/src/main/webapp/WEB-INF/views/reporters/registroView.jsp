@@ -132,7 +132,7 @@
         <h1>Cadastro de Reporter</h1>
         
         <div class="form-container">
-            <form action="/reporters/registro" method="POST">
+            <form action="/reporters/novo/registro" method="POST">
                 <div class="form-group">
                     <label for="nome">Nome:</label>
                     <input type="text" name="nome" id="nome" required>

@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 @Service
 public class AuthenticationService {
-    private final Logger log = Logger.getLogger(String.valueOf(AuthenticationService.class));
+    private final Logger log = Logger.getLogger(AuthenticationService.class.getName());
     private final ReporterDao reporterDao;
 
     public AuthenticationService(ReporterDao reporterDao) {

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public interface NoticiaDao {
-    boolean save(Noticia noticia);
+    Noticia save(Noticia noticia);
 
     boolean update(Noticia noticia);
 
@@ -15,10 +15,7 @@ public interface NoticiaDao {
 
     boolean deleteById(Long id);
 
-    void deleteAll();
-
     List<Noticia> listAll();
-    List<Noticia> buscarNoticiasPorTitulo(String titulo);
 
     Noticia findById(Long id);
 

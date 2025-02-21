@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class = "container">
-	    <div class="logout">
+	    <div class = "logout">
 		    <c:if test = "${not empty reporterLogado}">
 		        <a href = "/reporters/logout" class = "btn btn-danger">Logout</a>
 	        </c:if>
@@ -46,13 +46,18 @@
                         <td>${reporter.login}</td>
                         <td>
                             <a href = "/reporters/admin/perfil/${reporter.id}" class = "btn btn-info">Ver Perfil</a>
+                            <c:if test="${reporter.id == reporterLogado.id}">
+	                            <a href = "/noticias/admin/reporter/${reporter.id}" class = "btn btn-info">Minhas Noticias</a>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
         
-        <a href = "/noticias/noticias" class = "btn btn-secondary">Voltar</a>
+        <a href = "/" class = "btn btn-secondary">Página de Noticias</a>
+	    <a href = "/noticias/admin/nova" class = "btn btn-info">Cadastrar nova Noticia</a>
+
     </div>
 	
 	<script src = "${pageContext.request.contextPath}/js/alert-msg.js"></script>

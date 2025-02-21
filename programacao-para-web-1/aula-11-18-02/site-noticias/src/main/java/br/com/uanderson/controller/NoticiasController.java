@@ -5,7 +5,6 @@ import br.com.uanderson.model.Reporter;
 import br.com.uanderson.repository.NoticiaDao;
 import br.com.uanderson.service.AuthenticationService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,39 +26,32 @@ public class NoticiasController {
         this.authenticationService = authenticationService;
     }
 
-    // Exibe o menu principal com todas as notícias
-    @GetMapping
-    public ModelAndView listarNoticias() {
-        ModelAndView mv = new ModelAndView("noticias/noticiasView");
-        List<Noticia> noticias = noticiaDao.listAll();
-        mv.addObject("noticias", noticias);
-        return mv;
-    }
 
     // Exibe os detalhes de uma notícia específica
     @GetMapping("/{id}")
     public ModelAndView verNoticia(@PathVariable Long id) {
-        ModelAndView mv = new ModelAndView("noticias/detalhes");
+        ModelAndView mv = new ModelAndView("index");
         Noticia noticia = noticiaDao.findById(id);
         if (noticia == null) {
-            mv.setViewName("redirect:/noticias");
+            mv.setViewName("redirect:/");
             return mv;
         }
         mv.addObject("noticia", noticia);
+        mv.addObject("noticias", noticiaDao.listAll());
         return mv;
     }
 
     // Exibe o formulário de criação de notícia
-    @GetMapping("/nova")
+    @GetMapping("/admin/nova")
     public ModelAndView formularioNovaNoticia(HttpSession session) {
         if (!authenticationService.isLoggedIn(session)) {
             return new ModelAndView("redirect:/reporters/login");
         }
-        return new ModelAndView("noticias/cadastrar");
+        return new ModelAndView("noticias/cadastrarView");
     }
 
     // Processa a criação de uma nova notícia
-    @PostMapping("/nova")
+    @PostMapping("/admin/nova")
     public ModelAndView criarNoticia(
             @RequestParam String titulo,
             @RequestParam String lide,
@@ -69,7 +61,7 @@ public class NoticiasController {
 
         if (!authenticationService.isLoggedIn(session)) {
             redirectAttributes.addFlashAttribute("error", "Você precisa estar logado para criar uma notícia");
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/reporters/login");
         }
 
         // Valida os dados da notícia
@@ -78,13 +70,19 @@ public class NoticiasController {
             return new ModelAndView("redirect:/noticias/nova");
         }
 
+        //validar tamanho do titulo que deve ser menor que 255
+        if (titulo.length() > 255) {
+            redirectAttributes.addFlashAttribute("error", "O título deve ter no máximo 255 caracteres");
+            return new ModelAndView("redirect:/noticias/admin/nova");
+        }
+
         // Cria uma nova notícia com o autor atual
         Noticia noticiaForSave = new Noticia(null, titulo, lide, corpo, LocalDateTime.now(), authenticationService.getLoggedReporter(session));
-        boolean success = noticiaDao.save(noticiaForSave);
+        Noticia noticiaSalva = noticiaDao.save(noticiaForSave);
 
-        if (success) {
+        if (noticiaSalva.getId() != null) {
             redirectAttributes.addFlashAttribute("success", "Notícia criada com sucesso!");
-            return new ModelAndView("redirect:/noticias");
+            return new ModelAndView("redirect:/noticias/" + noticiaSalva.getId());
         } else {
             redirectAttributes.addFlashAttribute("error", "Erro ao criar notícia");
             return new ModelAndView("redirect:/noticias/nova");
@@ -92,11 +90,11 @@ public class NoticiasController {
     }
 
     // Exibe o formulário de edição de notícia
-    @GetMapping("/{id}/editar")
+    @GetMapping("/admin/editar/{id}")
     public ModelAndView formularioEditarNoticia(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
         if (!authenticationService.isLoggedIn(session)) {
             redirectAttributes.addFlashAttribute("error", "Você precisa estar logado para editar uma notícia");
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/reporters/login");
         }
 
         Noticia noticia = noticiaDao.findById(id);
@@ -111,13 +109,13 @@ public class NoticiasController {
             return new ModelAndView("redirect:/noticias");
         }
 
-        ModelAndView mv = new ModelAndView("noticias/form");
+        ModelAndView mv = new ModelAndView("noticias/cadastrarView");
         mv.addObject("noticia", noticia);
         return mv;
     }
 
     // Processa a atualização de uma notícia
-    @PostMapping("/{id}/editar")
+    @PostMapping("/admin/editar/{id}")
     public ModelAndView atualizarNoticia(
             @PathVariable Long id,
             @RequestParam String titulo,
@@ -128,7 +126,7 @@ public class NoticiasController {
 
         if (!authenticationService.isLoggedIn(session)) {
             redirectAttributes.addFlashAttribute("error", "Você precisa estar logado para editar uma notícia");
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/reporters/login");
         }
 
         Noticia noticia = noticiaDao.findById(id);
@@ -161,7 +159,7 @@ public class NoticiasController {
     }
 
     // Processa a exclusão de uma notícia
-    @PostMapping("/{id}/deletar")
+    @GetMapping("/admin/deletar/{id}")
     public ModelAndView deletarNoticia(
             @PathVariable Long id,
             HttpSession session,
@@ -169,7 +167,7 @@ public class NoticiasController {
 
         if (!authenticationService.isLoggedIn(session)) {
             redirectAttributes.addFlashAttribute("error", "Você precisa estar logado para deletar uma notícia");
-            return new ModelAndView("redirect:/login");
+            return new ModelAndView("redirect:/reporters/login");
         }
 
         boolean success = noticiaDao.deleteById(id);
@@ -180,23 +178,27 @@ public class NoticiasController {
             redirectAttributes.addFlashAttribute("error", "Erro ao deletar notícia");
         }
 
-        return new ModelAndView("redirect:/noticias");
-    }
-
-    // Busca notícias por título
-    @GetMapping("/buscar")
-    public ModelAndView buscarNoticias(@RequestParam String titulo) {
-        ModelAndView mv = new ModelAndView("noticias/lista");
-        List<Noticia> noticias = noticiaDao.buscarNoticiasPorTitulo(titulo);
-        mv.addObject("noticias", noticias);
-        mv.addObject("termoBusca", titulo);
-        return mv;
+        return new ModelAndView("redirect:/");
     }
 
     // Lista notícias de um repórter específico
-    @GetMapping("/reporter/{reporterId}")
-    public ModelAndView listarNoticiasPorReporter(@PathVariable Long reporterId) {
-        ModelAndView mv = new ModelAndView("noticias/lista");
+    @GetMapping("/admin/reporter/{reporterId}")
+    public ModelAndView listarNoticiasPorReporter(@PathVariable Long reporterId,
+                                                  HttpSession session,
+                                                  RedirectAttributes redirectAttributes) {
+        if (!authenticationService.isLoggedIn(session)) {
+            redirectAttributes.addFlashAttribute("error", "Você precisa estar logado para deletar uma notícia");
+            return new ModelAndView("redirect:/reporters/login");
+        }
+
+        ModelAndView mv = new ModelAndView("noticias/noticiasView");
+
+        Reporter currentReporter = (Reporter) session.getAttribute("reporterLogado");
+        if (!currentReporter.getId().equals(reporterId)) {
+            redirectAttributes.addFlashAttribute("error", "Você não tem permissão para Acessar esses noticias");
+            return new ModelAndView("redirect:/reporters/login");
+        }
+
         List<Noticia> noticias = noticiaDao.findByReporterId(reporterId);
         mv.addObject("noticias", noticias);
         return mv;

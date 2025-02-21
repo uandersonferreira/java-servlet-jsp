@@ -187,7 +187,7 @@ public class ReporterDaoImpl implements ReporterDao {
 
     @Override
     public Reporter findByLogin(String login) {
-        String sql = "SELECT * FROM reporter WHERE login = ? AND ativo = true";
+        String sql = "SELECT * FROM reporter WHERE login = ?";
 
         try (Connection conexao = connectionFactory.getConnection();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
