@@ -1,5 +1,6 @@
 package br.com.uanderson.dao.impl;
 
+import br.com.uanderson.XmlManager;
 import br.com.uanderson.dao.PessoaDaoAjax;
 import br.com.uanderson.dao.connection.ConnectionFactory;
 import br.com.uanderson.model.Pessoa;
@@ -15,6 +16,7 @@ import java.util.List;
 @Log4j2
 public class PessoaDaoAjaxImpl implements PessoaDaoAjax {
     private final ConnectionFactory connectionFactory;
+    private final XmlManager xmlManager = new XmlManager();
 
     public PessoaDaoAjaxImpl() {
         this.connectionFactory = ConnectionFactory.getInstance();
@@ -188,4 +190,10 @@ public class PessoaDaoAjaxImpl implements PessoaDaoAjax {
 
         return pessoas;
     }
-}
+
+    public String convertToXml() {
+        List<Pessoa> pessoas = listAll();
+        return xmlManager.convertToXml(pessoas);
+    }
+
+}//class

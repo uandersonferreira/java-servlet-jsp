@@ -13,44 +13,45 @@ import lombok.extern.log4j.Log4j2;
 import java.io.IOException;
 
 @Log4j2
-@WebServlet(name = "DeleteServlet", value = "/delete-xml")
-public class DeleteServlet extends HttpServlet {
+@WebServlet(name = "DeleteXmlServlet", value = "/delete-xml")
+public class DeleteXmlServlet extends HttpServlet {
     private final PessoaDaoAjax pessoaDaoAjax = new PessoaDaoAjaxImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/xml;charset=UTF-8");
-        String xmlResponse;
+        // Define o tipo de resposta para texto simples (AJAX)
+        response.setContentType("text/plain; charset=UTF-8");
 
         try {
-            if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
-                xmlResponse = "<response><status>error</status><message>ID inválido</message></response>";
+            String idParam = request.getParameter("id");
+            if (idParam == null || idParam.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("ID inválido");
                 log.error("Tentativa de deleção com ID inválido");
-                response.getWriter().write(xmlResponse);
                 return;
             }
 
-            int id = Integer.parseInt(request.getParameter("id"));
+            int id = Integer.parseInt(idParam);
             Pessoa pessoa = pessoaDaoAjax.findById(id);
 
             if (pessoa == null) {
-                xmlResponse = "<response><status>error</status><message>Pessoa não encontrada</message></response>";
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("Pessoa não encontrada");
                 log.warn("Tentativa de deleção de pessoa inexistente com ID: {}", id);
             } else {
                 pessoaDaoAjax.deleteById(pessoa.getId());
-                xmlResponse = "<response><status>success</status><message>Pessoa deletada com sucesso</message></response>";
+                response.getWriter().write("Pessoa deletada com sucesso");
                 log.info("Pessoa com ID {} deletada com sucesso", id);
             }
-
         } catch (NumberFormatException e) {
-            xmlResponse = "<response><status>error</status><message>ID inválido</message></response>";
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("ID inválido");
             log.error("Erro de formato no ID: {}", e.getMessage());
         } catch (Exception e) {
-            xmlResponse = "<response><status>error</status><message>Erro ao deletar pessoa: " + e.getMessage() + "</message></response>";
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Erro ao deletar pessoa: " + e.getMessage());
             log.error("Erro ao deletar pessoa: {}", e.getMessage());
         }
-
-        response.getWriter().write(xmlResponse);
     }
 }

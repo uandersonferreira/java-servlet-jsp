@@ -8,71 +8,67 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 
-@WebServlet(name = "UpdateServlet", value = "/update-xml")
-public class UpdateServlet extends HttpServlet {
+@WebServlet(name = "UpdateXmlServlet", value = "/update-xml")
+public class UpdateXmlServlet extends HttpServlet {
 
     private final PessoaDaoAjax pessoaDaoAjax = new PessoaDaoAjaxImpl();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        Pessoa pessoa = pessoaDaoAjax.findById(id);
-        if (pessoa != null) {
-            req.setAttribute("pessoa", pessoa);
-            req.getRequestDispatcher("update.jsp").forward(req, resp);
-        } else {
-            resp.sendRedirect("readServlet");
-        }
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String nome = request.getParameter("nome");
-        String idadeStr = request.getParameter("idade");
+        // Define o tipo de resposta para texto simples
+        response.setContentType("text/plain; charset=UTF-8");
 
-        boolean hasError = false;
-        String mensagemErro = null;
-        String campoErro = null;
+        try {
+            // Obtém e converte os parâmetros enviados
+            int id = Integer.parseInt(request.getParameter("id"));
+            String nome = request.getParameter("nome");
+            String idadeStr = request.getParameter("idade");
 
-        // Validação dos campos
-        if (nome == null || nome.trim().isEmpty()) {
-            mensagemErro = "O campo 'Nome' é obrigatório.";
-            campoErro = "nome";
-            hasError = true;
-        } else if (idadeStr == null || idadeStr.isEmpty() || Integer.parseInt(idadeStr) <= 0) {
-            mensagemErro = "O campo 'Idade' deve ser maior que 0.";
-            campoErro = "idade";
-            hasError = true;
-        }
-
-        if (hasError) {
-            // Redirecionar de volta para o formulário com a mensagem de erro
-            Pessoa pessoa = new Pessoa(pessoaDaoAjax.findById(id).getId(), nome, Integer.parseInt(idadeStr));
-            request.setAttribute("pessoa", pessoa);
-            request.setAttribute("mensagemErro", mensagemErro);
-            request.setAttribute("campoErro", campoErro);
-            request.getRequestDispatcher("update.jsp").forward(request, response);
-        } else {
-            // Atualizar a pessoa
-            Pessoa pessoa = pessoaDaoAjax.findById(id);
-            pessoa.setNome(nome);
-            pessoa.setIdade(Integer.parseInt(idadeStr));
-
-            try {
-                pessoaDaoAjax.update(pessoa);
-                // Redirecionar com mensagem de sucesso
-                request.getSession().setAttribute("mensagem", "Atualização realizada com sucesso!");
-                request.getSession().setAttribute("tipoMensagem", "sucesso");
-            } catch (Exception e) {
-                // Redirecionar com mensagem de erro
-                request.getSession().setAttribute("mensagem", "Erro ao atualizar os dados: " + e.getMessage());
-                request.getSession().setAttribute("tipoMensagem", "erro");
+            // Valida o campo 'nome'
+            if (nome == null || nome.trim().isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("O campo 'Nome' é obrigatório.");
+                return;
             }
-            response.sendRedirect("readServlet");
+
+            // Valida e converte o campo 'idade'
+            int idade;
+            try {
+                idade = Integer.parseInt(idadeStr);
+                if (idade <= 0) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("O campo 'Idade' deve ser maior que 0.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Idade inválida.");
+                return;
+            }
+
+            // Busca a pessoa no banco de dados
+            Pessoa pessoa = pessoaDaoAjax.findById(id);
+            if (pessoa == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("Pessoa não encontrada.");
+                return;
+            }
+
+            // Atualiza os dados da pessoa
+            pessoa.setNome(nome);
+            pessoa.setIdade(idade);
+
+            // Realiza a atualização
+            pessoaDaoAjax.update(pessoa);
+
+            // Retorna mensagem de sucesso
+            response.getWriter().write("Atualização realizada com sucesso!");
+        } catch (Exception e) {
+            // Em caso de exceção, retorna status 500 e a mensagem de erro
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Erro ao atualizar os dados: " + e.getMessage());
         }
     }
 }

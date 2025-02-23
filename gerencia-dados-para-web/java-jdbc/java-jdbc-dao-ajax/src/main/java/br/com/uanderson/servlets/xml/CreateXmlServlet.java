@@ -8,51 +8,57 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 
-@WebServlet(name = "CreateServlet", value = "/create-xml")
-public class CreateServlet extends HttpServlet {
+@WebServlet(name = "CreateXmlServlet", value = "/create-xml")
+public class CreateXmlServlet extends HttpServlet {
     private final PessoaDaoAjax pessoaDaoAjax = new PessoaDaoAjaxImpl();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nome = request.getParameter("nome");
-        String idadeStr = request.getParameter("idade");
+        // Define o tipo de resposta para texto simples, adequado para AJAX
+        response.setContentType("text/plain; charset=UTF-8");
 
-
-        // Validação do campo 'Nome'
-        if (nome == null || nome.trim().isEmpty()) {
-            response.sendRedirect("create.jsp?error=Erro ao cadastrar pessoa: Nome é obrigatório.");
-            return;  // Retorna imediatamente, evitando que continue a execução
-        }
-
-        // Validação do campo 'Idade'
-        int idade = 0;
         try {
+            String nome = request.getParameter("nome");
+            String idadeStr = request.getParameter("idade");
+
+            // Validação do campo 'Nome'
+            if (nome == null || nome.trim().isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Erro ao cadastrar pessoa: Nome é obrigatório.");
+                return;
+            }
+
+            // Validação do campo 'Idade'
+            int idade;
             if (idadeStr == null || idadeStr.trim().isEmpty()) {
-                response.sendRedirect("create.jsp?error=O campo 'Idade' não pode ser vazio.");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("O campo 'Idade' não pode ser vazio.");
+                return;
             }
-            idade = Integer.parseInt(idadeStr);
-
-            if (idade <= 0) {
-                response.sendRedirect("create.jsp?error=O campo 'Idade' deve ser maior que 0.");
+            try {
+                idade = Integer.parseInt(idadeStr);
+                if (idade <= 0) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("O campo 'Idade' deve ser maior que 0.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Erro ao cadastrar pessoa: Idade inválida.");
+                return;
             }
-        } catch (IllegalArgumentException e) {
-            response.sendRedirect("create.jsp?error=Erro ao cadastrar pessoa Verifique os campos");
-            e.printStackTrace();
-            return;  // Retorna imediatamente, evitando continuar a execução
-        }
 
-        try {
-            pessoaDaoAjax.save(new Pessoa(nome, idade));
-            // Redirecionar com mensagem de sucesso para /pessoas-xml
-            response.sendRedirect("pessoas-xml?success=Pessoa cadastrada com sucesso!");
+            // Criação da nova pessoa e salvando no banco de dados
+            Pessoa pessoa = new Pessoa(nome, idade);
+            pessoaDaoAjax.save(pessoa);
 
+            // Retorna mensagem de sucesso
+            response.getWriter().write("Pessoa cadastrada com sucesso!");
         } catch (Exception e) {
-            // Redirecionar com mensagem de erro /pessoas-xml
-            response.sendRedirect("create.jsp?error=Erro ao cadastrar pessoa JDBC");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Erro ao cadastrar pessoa JDBC: " + e.getMessage());
         }
     }
-
 }

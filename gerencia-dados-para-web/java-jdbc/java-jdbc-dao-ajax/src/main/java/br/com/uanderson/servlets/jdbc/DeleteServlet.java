@@ -1,4 +1,4 @@
-package br.com.uanderson.servlets;
+package br.com.uanderson.servlets.jdbc;
 
 import br.com.uanderson.dao.PessoaDaoAjax;
 import br.com.uanderson.dao.impl.PessoaDaoAjaxImpl;
@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet(name = "DeleteServlet", value = "/DeleteServlet")
+@WebServlet(name = "DeleteXmlServlet", value = "/DeleteXmlServlet")
 public class DeleteServlet extends HttpServlet {
     private final PessoaDaoAjax pessoaDaoAjax = new PessoaDaoAjaxImpl();
 

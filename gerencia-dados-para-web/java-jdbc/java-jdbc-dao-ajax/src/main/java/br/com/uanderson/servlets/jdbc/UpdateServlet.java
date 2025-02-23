@@ -1,4 +1,4 @@
-package br.com.uanderson.servlets;
+package br.com.uanderson.servlets.jdbc;
 
 import br.com.uanderson.dao.PessoaDaoAjax;
 import br.com.uanderson.dao.impl.PessoaDaoAjaxImpl;
@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "UpdateServlet", value = "/updateServlet")
+@WebServlet(name = "UpdateXmlServlet", value = "/updateServlet")
 public class UpdateServlet extends HttpServlet {
 
     private final PessoaDaoAjax pessoaDaoAjax = new PessoaDaoAjaxImpl();

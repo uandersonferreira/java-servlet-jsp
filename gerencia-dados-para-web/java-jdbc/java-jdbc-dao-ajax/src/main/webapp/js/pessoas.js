@@ -93,3 +93,28 @@ function buscarPessoa(id) {
         })
         .catch(error => console.error('Erro ao buscar pessoa:', error));
 }
+
+
+/*
+const xhr = new XMLHttpRequest();
+xhr.open('GET', 'pessoas-xml', true);
+xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+        const xmlDoc = xhr.responseXML;
+        const pessoas = xmlDoc.getElementsByTagName('pessoa');
+
+        // Process the XML data
+        for (let i = 0; i < pessoas.length; i++) {
+            const pessoa = pessoas[i];
+            const id = pessoa.getElementsByTagName('id')[0].textContent;
+            const nome = pessoa.getElementsByTagName('nome')[0].textContent;
+            const idade = pessoa.getElementsByTagName('idade')[0].textContent;
+
+            // Do something with the data
+            console.log(`ID: ${id}, Nome: ${nome}, Idade: ${idade}`);
+        }
+    }
+};
+xhr.send();
+
+ */

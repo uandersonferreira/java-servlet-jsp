@@ -1,8 +1,6 @@
-package br.com.uanderson.servlets;
+package br.com.uanderson.servlets.jdbc;
 
 import br.com.uanderson.dao.PessoaDaoAjax;
-import br.com.uanderson.dao.impl.PessoaDaoAjaxImpl;
-import br.com.uanderson.dao.impl.PessoaDaoJsonImpl;
 import br.com.uanderson.dao.impl.PessoaDaoXmlImpl;
 import br.com.uanderson.model.Pessoa;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package br.com.uanderson.servlets.jdbc;
+package br.com.uanderson.servlets.xml;
 
 import br.com.uanderson.dao.PessoaDaoAjax;
 import br.com.uanderson.dao.impl.PessoaDaoAjaxImpl;

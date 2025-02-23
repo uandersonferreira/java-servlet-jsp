@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD de Pessoas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>INTRODUÇÃO AO CLIENTE JSON</h1>
+  
+  <!-- FORMULÁRIO PARA CADASTRAR UMA PESSOA -->
+  <form id="form">
+    <input type="text" id="nome" name="nome" placeholder="Nome" required>
+    <input type="number" id="idade" name="idade" min="0" placeholder="Idade" required>
+    
+    <!-- Container para campos de telefone (será populado pelo JavaScript) -->
+    <div id="container-telefones"></div>
+    
+    <input type="submit" value="Cadastrar" id="buttonCadastrar">
+  </form>
+  
+  <!-- TABELA PARA EXIBIR AS PESSOAS CADASTRADAS -->
+  <table id="table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Idade</th>
+        <th>Telefones</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody id="relatorio">
+      <!-- Conteúdo será preenchido pelo JavaScript -->
+    </tbody>
+  </table>
+  
+  <script src="script.js"></script>
+</body>
+</html>

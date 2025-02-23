@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <!-- Adicione esta tag style no cabeçalho para melhorar a aparência -->
+<style>
+    #telefones-container div {
+        margin: 5px 0;
+    }
+    .remover-telefone {
+        margin-left: 5px;
+    }
+    button {
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+
+<!-- Atualize o formulário para incluir os telefones -->
+<form id="form">
+    <input type="text" id="nome" name="nome" placeholder="Nome">
+    <input type="number" id="idade" name="idade" min="0" placeholder="Idade">
+    
+    <div id="telefones-container"></div>
+    <button type="button" id="adicionar-telefone">Adicionar Telefone</button>
+    
+    <input type="submit" value="Cadastrar" id="buttonCadastrar">
+</form>
+
+<!-- Atualize a tabela para incluir as novas colunas -->
+<table id="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Idade</th>
+            <th>Telefones</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody id="relatorio"></tbody>
+</table>
+
+<script>
+let currentEditIndex = null;
+
+document.getElementById('adicionar-telefone').addEventListener('click', function() {
+    const div = document.createElement('div');
+    div.innerHTML = `
+        <input type="text" name="telefone" placeholder="Telefone">
+        <button type="button" class="remover-telefone">Remover</button>
+    `;
+    document.getElementById('telefones-container').appendChild(div);
+});
+
+document.getElementById('telefones-container').addEventListener('click', function(e) {
+    if (e.target.classList.contains('remover-telefone')) {
+        e.target.parentElement.remove();
+    }
+});
+
+document.getElementById("form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let pessoa = pegarDadosPessoa();
+    let pessoasList = JSON.parse(localStorage.getItem("pessoas")) || [];
+
+    if (currentEditIndex !== null) {
+        pessoasList[currentEditIndex] = pessoa;
+        currentEditIndex = null;
+        document.getElementById("buttonCadastrar").value = "Cadastrar";
+    } else {
+        pessoasList.push(pessoa);
+    }
+
+    localStorage.setItem("pessoas", JSON.stringify(pessoasList));
+    mostrarPessoasRelatorio();
+    this.reset();
+    document.getElementById('telefones-container').innerHTML = '';
+});
+
+document.getElementById('relatorio').addEventListener('click', function(e) {
+    const index = e.target.dataset.index;
+    
+    if (e.target.classList.contains('remover')) {
+        let pessoas = JSON.parse(localStorage.getItem("pessoas")) || [];
+        pessoas.splice(index, 1);
+        localStorage.setItem("pessoas", JSON.stringify(pessoas));
+        mostrarPessoasRelatorio();
+    }
+    
+    if (e.target.classList.contains('editar')) {
+        let pessoas = JSON.parse(localStorage.getItem("pessoas")) || [];
+        let pessoa = pessoas[index];
+        
+        document.getElementById('nome').value = pessoa.nome;
+        document.getElementById('idade').value = pessoa.idade;
+        
+        const container = document.getElementById('telefones-container');
+        container.innerHTML = '';
+        
+        if (pessoa.telefones) {
+            pessoa.telefones.forEach(tel => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <input type="text" name="telefone" value="${tel}" placeholder="Telefone">
+                    <button type="button" class="remover-telefone">Remover</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        currentEditIndex = index;
+        document.getElementById('buttonCadastrar').value = "Atualizar";
+    }
+});
+
+function pegarDadosPessoa() {
+    return {
+        nome: document.getElementById('nome').value,
+        idade: parseInt(document.getElementById('idade').value),
+        telefones: Array.from(document.querySelectorAll('input[name="telefone"]'))
+            .map(input => input.value.trim())
+            .filter(value => value)
+    };
+}
+
+function mostrarPessoasRelatorio() {
+    let pessoas = JSON.parse(localStorage.getItem("pessoas")) || [];
+    let tbody = document.getElementById('relatorio');
+    
+    tbody.innerHTML = pessoas.map((pessoa, index) => `
+        <tr>
+            <td>${pessoa.nome}</td>
+            <td>${pessoa.idade}</td>
+            <td>${pessoa.telefones ? pessoa.telefones.join(', ') : ''}</td>
+            <td>
+                <button class="editar" data-index="${index}">Editar</button>
+                <button class="remover" data-index="${index}">Remover</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+window.onload = mostrarPessoasRelatorio;
+</script>
+</body>
+</html>
