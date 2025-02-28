@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+  ### PostgreSQL database for JDBC example
+  db-jdbc-json:
+    container_name: db_jdbc_json
+    image: postgres:latest # Usando a imagem oficial do PostgreSQL
+    environment:
+      POSTGRES_DB: db_jdbc_json # Nome do banco de dados
+      POSTGRES_USER: test # Usuário do banco
+      POSTGRES_PASSWORD: test123 # Senha do banco
+    ports:
+      - "5432:5432" # Mapeamento de porta do host para o container
+    expose:
+      - 5432 # Expondo a porta para outros serviços dentro do Docker Compose
+    command: -p 5432 # Configurando a porta padrão do PostgreSQL
+    extra_hosts:
+      - 'host.docker.internal:host-gateway' # Adicionando o host local para acesso interno
+    volumes:
+      - jdbc-json-data:/var/lib/postgresql/data # Volume para persistência dos dados
+
+volumes:
+  jdbc-json-data: # Volume nomeado para persistência de dados do PostgreSQL
