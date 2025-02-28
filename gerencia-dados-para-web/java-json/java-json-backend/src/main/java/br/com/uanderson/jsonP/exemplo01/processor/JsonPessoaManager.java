@@ -1,7 +1,7 @@
-package br.com.uanderson.jsonP.processor;
+package br.com.uanderson.jsonP.exemplo01.processor;
 
-import br.com.uanderson.jsonP.model.Endereco;
-import br.com.uanderson.jsonP.model.Pessoa;
+import br.com.uanderson.jsonP.exemplo01.model.Endereco;
+import br.com.uanderson.jsonP.exemplo01.model.Pessoa;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;

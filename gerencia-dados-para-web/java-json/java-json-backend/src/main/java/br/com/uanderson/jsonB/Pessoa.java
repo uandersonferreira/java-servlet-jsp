@@ -1,4 +1,4 @@
-package br.com.uanderson.jsonB.model;
+package br.com.uanderson.jsonB;
 
 public class Pessoa {
     private String nome;
@@ -32,4 +32,5 @@ public class Pessoa {
                ", idade=" + idade +
                '}';
     }
+
 }

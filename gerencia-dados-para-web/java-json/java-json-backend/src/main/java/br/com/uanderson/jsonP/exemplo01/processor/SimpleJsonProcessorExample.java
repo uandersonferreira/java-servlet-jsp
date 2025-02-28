@@ -1,4 +1,4 @@
-package br.com.uanderson.jsonP.processor;
+package br.com.uanderson.jsonP.exemplo01.processor;
 
 import jakarta.json.*;
 import jakarta.json.stream.JsonGenerator;

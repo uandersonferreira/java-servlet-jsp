@@ -1,4 +1,4 @@
-package br.com.uanderson.jsonB;
+package br.com.uanderson.jsonP.exemplo02;
 
 public class Pessoa {
     private String nome;
@@ -28,9 +28,9 @@ public class Pessoa {
     @Override
     public String toString() {
         return "Pessoa{" +
-               "nome='" + nome + '\'' +
-               ", idade=" + idade +
-               '}';
+                "nome='" + nome + '\'' +
+                ", idade=" + idade +
+                '}';
     }
 
 }

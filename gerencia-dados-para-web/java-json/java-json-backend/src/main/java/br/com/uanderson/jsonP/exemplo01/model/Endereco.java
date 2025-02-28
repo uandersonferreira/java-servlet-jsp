@@ -1,4 +1,4 @@
-package br.com.uanderson.jsonP.model;
+package br.com.uanderson.jsonP.exemplo01.model;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
